@@ -1,4 +1,6 @@
-package com.kandaovr.meeting.kotlinlearn
+package com.kandaovr.meeting.kotlinDemo
+
+import kotlin.random.Random
 
 // 提前定义，未初始化
 lateinit var preDef: String
@@ -37,6 +39,16 @@ fun main(args: Array<String>) {
     for (i in 1 until 6) {
         print("$i\t")
     }
+
+    println("\n ranges-----------------------")
+
+    val a1= (1..100).random()
+    if (a1 in 1..10){
+        println("a1 is in 10 $a1 ")
+    }else{
+        println("a1 is not in 10 $a1")
+    }
+
 
     println("end-----------------")
 
@@ -108,7 +120,6 @@ fun main(args: Array<String>) {
             println(aaa)
             println(" end ")
         }
-
         else -> {
             println("else-->$aaa")
         }
@@ -126,10 +137,12 @@ fun main(args: Array<String>) {
     }
     println("---------------------------------")
 
-
     // 访问嵌套类
     var innerNum = Book.InnerClass().innerNum;
     println("innerNum :$innerNum")
+
+    println("---------------------------------")
+
 
 }
 

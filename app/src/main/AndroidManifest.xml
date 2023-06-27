@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kandaovr.meeting.kotlinlearn">
+    package="com.kandaovr.meeting.kotlinDemo">
 
     <application
         android:allowBackup="true"
@@ -10,12 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinLearn">
         <service
-            android:name=".MyService"
+            android:name="com.kandaovr.meeting.kotlinDemo.MyService"
             android:enabled="true"
             android:exported="true"></service>
 
         <activity android:name=".ActionActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.kandaovr.meeting.kotlinDemo.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

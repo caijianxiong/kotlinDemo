@@ -1,4 +1,4 @@
-package com.kandaovr.meeting.kotlinlearn
+package com.kandaovr.meeting.kotlinDemo
 
 import org.junit.Test
 
