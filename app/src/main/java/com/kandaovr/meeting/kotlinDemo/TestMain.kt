@@ -137,6 +137,24 @@ fun main(args: Array<String>) {
     }
     println("---------------------------------")
 
+    println("test array")
+    var ints = intArrayOf(5,2,43,1,1,3455,2)
+    var strings= arrayOf("sdd","sd","gggg")
+
+    var dobuleay=DoubleArray(2)
+    dobuleay[0] = 12.3
+    println("array size:${dobuleay.size}")
+
+    ints.forEach {
+        print("---- $it")
+    }
+
+    println()
+
+    // 伴生对象，实现调用起静态方法
+    var result_call = Book.Factory.create()
+
+
     // 访问嵌套类
     var innerNum = Book.InnerClass().innerNum;
     println("innerNum :$innerNum")

@@ -1,6 +1,7 @@
 package com.kandaovr.meeting.kotlinDemo
 
 import android.content.ComponentName
+import android.content.Context.BIND_AUTO_CREATE
 import android.content.Intent
 import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
@@ -51,7 +52,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         str = "hello"
         // Example of a call to a native method
-        findViewById<TextView>(R.id.sample_text).text = stringFromJNI()
+        val tv = findViewById<TextView>(R.id.sample_text)
+        tv?.post(Runnable {
+            tv.requestFocus()
+        })
+        tv.text = stringFromJNI()
         bt_startService = findViewById(R.id.bt_startService)
         bt_stopService = findViewById(R.id.bt_stopService)
 
