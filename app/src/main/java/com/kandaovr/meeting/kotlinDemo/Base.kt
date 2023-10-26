@@ -7,7 +7,7 @@ abstract class Base(name: String) : IBook {
 
     private var num_base = 0
 
-    protected lateinit var name_base: String
+    public lateinit var name_base: String
 
     public var pages_base = 100;
 

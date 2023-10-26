@@ -95,7 +95,7 @@ fun main(args: Array<String>) {
     var b = (21..50).random()
     var maxInt = if (b > c) Book(b.toString(), 1) else Book(c.toString())
 
-    println("b:$b, c:$c ,max:${maxInt.name}")
+    println("b:$b, c:$c ,max:${maxInt.name_base}")
 
     println("end -----------------------------")
 
