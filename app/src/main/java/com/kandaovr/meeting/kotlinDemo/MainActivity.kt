@@ -10,6 +10,7 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
@@ -44,8 +45,6 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var str: String;
 
-    private lateinit var bt_startService: Button
-    private lateinit var bt_stopService: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,8 +56,6 @@ class MainActivity : AppCompatActivity() {
             tv.requestFocus()
         })
         tv.text = stringFromJNI()
-        bt_startService = findViewById(R.id.bt_startService)
-        bt_stopService = findViewById(R.id.bt_stopService)
 
         bt_startService.setOnClickListener {
             var intent = Intent(this, MyService::class.java)
