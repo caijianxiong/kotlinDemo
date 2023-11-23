@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     var miil by Delegates.notNull<Double>()
 
     private var myService: MyService? = null
+
 
     private var connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -42,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     lateinit var str: String;
 
 
@@ -51,13 +52,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         str = "hello"
         // Example of a call to a native method
-        val tv = findViewById<TextView>(R.id.sample_text)
-        tv?.post(Runnable {
-            tv.requestFocus()
+        sample_text.post(Runnable {
+            sample_text.requestFocus()
         })
-        tv.text = stringFromJNI()
+        sample_text.text = stringFromJNI()
 
-        bt_startService.setOnClickListener {
+        bt_startService.setOnClickListener { v->
             var intent = Intent(this, MyService::class.java)
             bindService(intent, connection, BIND_AUTO_CREATE)
         }
@@ -77,10 +77,6 @@ class MainActivity : AppCompatActivity() {
         return "haha${num}";
     }
 
-    override fun finish() {
-        super.finish()
-    }
-
     /**
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
@@ -92,5 +88,9 @@ class MainActivity : AppCompatActivity() {
         init {
             System.loadLibrary("native-lib")
         }
+    }
+
+    interface Listener{
+        fun onClick(v:View);
     }
 }
