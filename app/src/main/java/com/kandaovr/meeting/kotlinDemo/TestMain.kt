@@ -162,6 +162,16 @@ fun main(args: Array<String>) {
     println("---------------------------------")
 
 
+
+    // byte code
+    var byteString = "123456"
+    var byteArray = byteString.toByteArray(Charsets.UTF_8)
+    for (a in byteArray) {
+        println("byte:${a.toChar().toString()}")
+    }
+
+
+
 }
 
 

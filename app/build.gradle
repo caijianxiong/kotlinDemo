@@ -62,4 +62,8 @@ dependencies {
 // CameraX View class
     implementation "androidx.camera:camera-view:1.0.0-alpha14"
 
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2' // Kotlin 协程核心库
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2' // Kotlin 协程 Android 扩展（适用于 Android 项目）
+
 }
