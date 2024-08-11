@@ -13,7 +13,7 @@ abstract class Base(name: String) : IBook {
 
     init {
         this.name_base = name;
-        println(name)
+        println("Base println: $name")
     }
 
     open fun getClassName(): String {

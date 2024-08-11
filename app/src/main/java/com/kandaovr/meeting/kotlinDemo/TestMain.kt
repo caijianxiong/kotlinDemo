@@ -1,5 +1,6 @@
 package com.kandaovr.meeting.kotlinDemo
 
+import androidx.core.util.rangeTo
 import kotlin.random.Random
 
 // 提前定义，未初始化
@@ -12,7 +13,7 @@ fun main(args: Array<String>) {
     var n = 123
 
     var str = "ha";
-    var num: Int? = str?.toIntOrNull() // ?.变量可为null
+    var num: Int? = str.toIntOrNull() // ?.变量可为null
     println("${num}-->skdaksk")
     var a = num
 
@@ -42,10 +43,10 @@ fun main(args: Array<String>) {
 
     println("\n ranges-----------------------")
 
-    val a1= (1..100).random()
-    if (a1 in 1..10){
+    val a1 = (1..100).random()
+    if (a1 in 1..10) {
         println("a1 is in 10 $a1 ")
-    }else{
+    } else {
         println("a1 is not in 10 $a1")
     }
 
@@ -67,9 +68,9 @@ fun main(args: Array<String>) {
 
     println("数组————————————————————————")
 
-    var arrary = arrayOf("hahds", "haha", Book("hhh", 222), 4, 5, 6)
+    var arrary = arrayOf("hahds", "haha", Book("book", 222), 4, 5, 6)
 
-    println(arrary.get(1))
+    println("${arrary[0]} ${arrary[1]}")
 
     for (i in arrary) {
         print("$i\t")
@@ -120,6 +121,7 @@ fun main(args: Array<String>) {
             println(aaa)
             println(" end ")
         }
+
         else -> {
             println("else-->$aaa")
         }
@@ -138,10 +140,10 @@ fun main(args: Array<String>) {
     println("---------------------------------")
 
     println("test array")
-    var ints = intArrayOf(5,2,43,1,1,3455,2)
-    var strings= arrayOf("sdd","sd","gggg")
+    var ints = intArrayOf(5, 2, 43, 1, 1, 3455, 2)
+    var strings = arrayOf("sdd", "sd", "gggg")
 
-    var dobuleay=DoubleArray(2)
+    var dobuleay = DoubleArray(2)
     dobuleay[0] = 12.3
     println("array size:${dobuleay.size}")
 
@@ -152,7 +154,7 @@ fun main(args: Array<String>) {
     println()
 
     // 伴生对象，实现调用起静态方法
-    var result_call = Book.Factory.create()
+    var result_call = Book.create()
 
 
     // 访问嵌套类
@@ -160,7 +162,6 @@ fun main(args: Array<String>) {
     println("innerNum :$innerNum")
 
     println("---------------------------------")
-
 
 
     // byte code
@@ -171,8 +172,8 @@ fun main(args: Array<String>) {
     }
 
 
-
 }
+
 
 
 
