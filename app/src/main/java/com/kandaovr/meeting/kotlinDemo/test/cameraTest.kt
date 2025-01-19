@@ -34,19 +34,19 @@ fun main() {
 
 
 private val mSurfaceTextureListener = object : TextureView.SurfaceTextureListener {
-    override fun onSurfaceTextureAvailable(surface: SurfaceTexture?, width: Int, height: Int) {
+    override fun onSurfaceTextureAvailable(p0: SurfaceTexture, p1: Int, p2: Int) {
         TODO("Not yet implemented")
     }
 
-    override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
+    override fun onSurfaceTextureSizeChanged(p0: SurfaceTexture, p1: Int, p2: Int) {
         TODO("Not yet implemented")
     }
 
-    override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
+    override fun onSurfaceTextureDestroyed(p0: SurfaceTexture): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {
+    override fun onSurfaceTextureUpdated(p0: SurfaceTexture) {
         TODO("Not yet implemented")
     }
 
