@@ -64,16 +64,16 @@ dependencies {
     kapt 'androidx.lifecycle:lifecycle-compiler:2.3.1'  // 如果你使用生命周期注解等
 
 
-//    // Retrofit 依赖
-//    api 'com.squareup.retrofit2:retrofit:2.9.0'
-//    // Retrofit 转换器 (例如：Gson 转换器)
-//    api 'com.squareup.retrofit2:converter-gson:2.9.0'
-//
-//    // OkHttp 依赖（Retrofit 会自动使用 OkHttp）
-//    api 'com.squareup.okhttp3:okhttp:4.9.0'
-//
-//    // 如果你需要使用 OkHttp 日志拦截器
-//    api 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    // Retrofit 依赖
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    // Retrofit 转换器 (例如：Gson 转换器)
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // OkHttp 依赖（Retrofit 会自动使用 OkHttp）
+    api 'com.squareup.okhttp3:okhttp:4.9.0'
+
+    // 如果你需要使用 OkHttp 日志拦截器
+    api 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
 
 }

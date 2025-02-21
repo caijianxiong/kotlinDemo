@@ -6,6 +6,10 @@
     <uses-feature android:name="android.hardware.camera.any" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -27,16 +31,29 @@
             android:name=".MainActivity"
             android:exported="true"
             tools:ignore="Instantiatable">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".CameraPreViewActivity"
+            android:exported="true"
+            tools:ignore="Instantiatable">
+
+        </activity>
+        <activity
+            android:name=".AudioRecordActivity"
+            android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity
-            android:name=".CameraPreViewActivity"
-            android:exported="true"
-            tools:ignore="Instantiatable"></activity>
     </application>
 
 </manifest>

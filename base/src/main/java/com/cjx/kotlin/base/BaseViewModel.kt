@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,40 +15,51 @@ import com.cjx.kotlin.base.BaseViewModel.Companion.ParameterField.BUNDLE
 import com.cjx.kotlin.base.BaseViewModel.Companion.ParameterField.CLASS
 import com.cjx.kotlin.base.BaseViewModel.Companion.ParameterField.REQEUST_DEFAULT
 import com.cjx.kotlin.base.BaseViewModel.Companion.ParameterField.REQUEST
+import com.cjx.kotlin.base.net.BaseRepository
+import com.cjx.kotlin.base.net.LoadingState
 import com.trello.rxlifecycle2.LifecycleProvider
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
-open class BaseViewModel(application: Application):AndroidViewModel(application),IBaseViewModel {
+open class BaseViewModel<T:BaseRepository<Any?>>: ViewModel() {
 
     private var mLifecycle: WeakReference<LifecycleProvider<*>>? = null
     private var uc: UIChangeLiveData? = null
 
-
-    override fun onAny(owner: LifecycleOwner?, event: Lifecycle.Event?) {
+    val repository: T by lazy {
+        createRepository()
     }
 
-    override fun onCreate() {
+    val loadingDataState: LiveData<LoadingState> by lazy {
+        repository.loadingStateLiveData
     }
 
-    override fun onDestroy() {
+    /**
+     * 创建Repository
+     */
+    @Suppress("UNCHECKED_CAST")
+    open fun createRepository(): T {
+        // 查找 BaseRepository 的泛型类型
+        val baseRepositoryClass = findActualGenericsClass<BaseRepository<T>>(BaseRepository::class.java)
+            ?: throw NullPointerException("Cannot find a BaseRepository generics in ${javaClass.simpleName}")
+
+        // 使用反射创建实例
+        return baseRepositoryClass.getDeclaredConstructor().newInstance() as T
     }
 
-    override fun onStart() {
-    }
-
-    override fun onStop() {
-    }
-
-    override fun onResume() {
-    }
-
-    override fun onPause() {
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    inline fun <reified T> findActualGenericsClass(baseClass: Class<*>): Class<*>? {
+        // 获取父类的泛型类型
+        val genericSuperclass = baseClass.genericSuperclass
+        if (genericSuperclass is java.lang.reflect.ParameterizedType) {
+            // 获取泛型类型参数
+            val actualType = genericSuperclass.actualTypeArguments[0]
+            if (actualType is Class<*>) {
+                return actualType
+            }
+        }
+        return null
     }
 
 
