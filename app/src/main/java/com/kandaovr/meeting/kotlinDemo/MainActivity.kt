@@ -17,7 +17,7 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity() {
 
     private var TAG = this.javaClass.simpleName
-    var var_c by Delegates.notNull<Int>();
+    var var_c by Delegates.notNull<Int>()
     var miil by Delegates.notNull<Double>()
 
     private var myService: MyService? = null
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    lateinit var str: String;
+    lateinit var str: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,12 +69,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getStr(name: String): String {
-        var num: Int;
+        var num: Int
         if (name.isEmpty()) {
             return ""
         }
         num = 123
-        return "haha${num}";
+        return "haha${num}"
     }
 
     /**
@@ -91,6 +91,6 @@ class MainActivity : AppCompatActivity() {
 //    }
 
     interface Listener{
-        fun onClick(v:View);
+        fun onClick(v:View)
     }
 }

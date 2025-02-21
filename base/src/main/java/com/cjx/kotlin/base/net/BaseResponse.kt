@@ -9,7 +9,7 @@ class BaseResponse<T>(
 ) {
 
     companion object {
-        const val ERROR_CODE_SUCCESS = 0;
+        const val ERROR_CODE_SUCCESS = 0
     }
 
     val success: Boolean

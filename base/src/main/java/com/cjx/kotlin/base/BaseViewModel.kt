@@ -247,11 +247,6 @@ open class BaseViewModel<T:BaseRepository<Any?>>: ViewModel() {
             }
 
 
-            override fun observe(owner: LifecycleOwner, observer: Observer<in Any?>) {
-                super.observe(owner, observer)
-            }
-
-
         }
 
         object ParameterField {

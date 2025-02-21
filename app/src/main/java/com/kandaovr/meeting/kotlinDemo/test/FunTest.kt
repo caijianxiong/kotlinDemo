@@ -9,7 +9,7 @@ private var mListener: Listener? = null
 
 // 定义set接口方法
 fun setListener(listener: Listener) {
-    mListener = listener;
+    mListener = listener
 }
 
 // 声明函数类型的成员变量-没有入参，返回String类型

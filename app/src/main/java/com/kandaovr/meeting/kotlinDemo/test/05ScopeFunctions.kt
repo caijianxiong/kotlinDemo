@@ -94,7 +94,7 @@ private fun nullPrint() {
         age = 12
         about = "sdssds"
     }
-    people?.let {
+    people.let {
         println(it.toString())
     } ?: run {
         println("people :$people")

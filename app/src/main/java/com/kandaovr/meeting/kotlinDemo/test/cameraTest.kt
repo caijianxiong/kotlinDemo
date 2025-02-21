@@ -22,7 +22,7 @@ fun main() {
      *
      */
 
-    val factory = CameraFactory();
+    val factory = CameraFactory()
 
     var cameraType = Camera.CameraType.CAMERA_LOCAL
 
