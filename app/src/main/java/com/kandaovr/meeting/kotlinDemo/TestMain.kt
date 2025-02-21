@@ -12,7 +12,7 @@ fun main(args: Array<String>) {
 
     var n = 123
 
-    var str = "ha";
+    var str = "ha"
     var num: Int? = str.toIntOrNull() // ?.变量可为null
     println("${num}-->skdaksk")
     var a = num
@@ -158,7 +158,7 @@ fun main(args: Array<String>) {
 
 
     // 访问嵌套类
-    var innerNum = Book.InnerClass().innerNum;
+    var innerNum = Book.InnerClass().innerNum
     println("innerNum :$innerNum")
 
     println("---------------------------------")
@@ -168,7 +168,7 @@ fun main(args: Array<String>) {
     var byteString = "123456"
     var byteArray = byteString.toByteArray(Charsets.UTF_8)
     for (a in byteArray) {
-        println("byte:${a.toChar().toString()}")
+        println("byte:${a.toInt().toChar()}")
     }
 
 
