@@ -2,10 +2,14 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
 }
-apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-parcelize"
 
 android {
     compileSdkVersion 31
+
+    buildFeatures {
+        viewBinding true
+    }
 
     defaultConfig {
         applicationId "com.kandaovr.meeting.kotlinDemo"
