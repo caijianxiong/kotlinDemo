@@ -8,10 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_main.*
+import com.kandaovr.meeting.kotlinDemo.databinding.ActivityMainBinding
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     var miil by Delegates.notNull<Double>()
 
     private var myService: MyService? = null
+    
+    private lateinit var mDataBinding: ActivityMainBinding
 
 
     private var connection = object : ServiceConnection {
@@ -49,20 +52,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mDataBinding= ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(R.layout.activity_main)
         str = "hello"
         // Example of a call to a native method
-        sample_text.post(Runnable {
-            sample_text.requestFocus()
+        mDataBinding.sampleText.post(Runnable {
+            mDataBinding.sampleText.requestFocus()
         })
-        sample_text.text = stringFromJNI()
+        mDataBinding.sampleText.text = stringFromJNI()
 
-        bt_startService.setOnClickListener { v->
+        mDataBinding.btStartService.setOnClickListener { v->
             var intent = Intent(this, MyService::class.java)
             bindService(intent, connection, BIND_AUTO_CREATE)
         }
 
-        bt_stopService.setOnClickListener {
+        mDataBinding.btStopService.setOnClickListener {
             unbindService(connection)
         }
 
