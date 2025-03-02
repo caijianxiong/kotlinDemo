@@ -1,153 +1,123 @@
-//package com.cjx.kotlin.base
-//
-//import android.content.Intent
-//import android.os.Bundle
-//import androidx.databinding.DataBindingUtil
-//import androidx.databinding.ViewDataBinding
-//import androidx.fragment.app.FragmentActivity
-//import androidx.lifecycle.ViewModel
-//import androidx.lifecycle.ViewModelProvider
-//import com.cjx.kotlin.base.BaseViewModel.Companion.ParameterField.BUNDLE
-//import com.cjx.kotlin.base.BaseViewModel.Companion.ParameterField.CLASS
-//import com.cjx.kotlin.base.BaseViewModel.Companion.ParameterField.REQUEST
-//import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-//import java.lang.reflect.ParameterizedType
-//
-//abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : RxAppCompatActivity(),IBaseView {
-//
-//
-//    open var binding: V? = null
-//    open var viewModel: VM? = null
-//    open var viewModelId = 0
-//
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//        initViewDataBinding(savedInstanceState)
-//        //页面接受的参数方法
-//        initParam()
-//        //私有的ViewModel与View的契约事件回调逻辑
-//        registerUIChangeLiveDataCallBack()
-//        //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
-//        initViewObservable()
-//    }
-//
-//
-//    private fun registerUIChangeLiveDataCallBack() {
-//
-//        //跳入新页面
-//        viewModel?.getUC()?.getStartActivityEvent()?.observe(this) { params ->
-//
-//            params?.let {
-//                val clz = params[CLASS] as Class<*>?
-//                val intent = Intent(this@BaseActivity, clz)
-////            intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-//                val bundle = params[BUNDLE]
-//                if (bundle is Bundle) {
-//                    intent.putExtras((bundle as Bundle?)!!)
-//                }
-//                startActivityForResult(intent, params[REQUEST] as Int)
-//            }
-//
-//        }
-//        viewModel?.getUC()?.getFinishResult()?.observe(this) { integer ->
-//            integer?.let {
-//                setResult(integer)
-//                finish()
-//            }
-//        }
-//
-//        //关闭界面
-//
-//        //关闭界面
-//        viewModel?.getUC()?.getFinishEvent()?.observe(this) { finish() }
-//        //关闭上一层
-//
-//        viewModel?.getUC()?.getOnBackPressedEvent()?.observe(this) { onBackPressed() }
-//
-//        viewModel?.getUC()?.getSetResultEvent()?.observe(this) { params ->
-//            params?.let {
-//                val intent = Intent()
-//                if (params.isNotEmpty()) {
-//                    val strings: Set<String> = params.keys
-//                    for (string in strings) {
-//                        intent.putExtra(string, params[string])
-//                    }
-//                }
-//                setResult(RESULT_OK, intent)
-//            }
-//
-//        }
-//    }
-//
-//    private fun initViewDataBinding(savedInstanceState: Bundle?) {
-//        //DataBindingUtil类需要在project的build中配置 dataBinding {enabled true }, 同步后会自动关联android.databinding包
-//        binding =
-//            DataBindingUtil.setContentView(this@BaseActivity, initContentView(savedInstanceState))
-//
-//
-//        viewModelId = initVariableId()
-//        val modelClass: Class<BaseViewModel>
-//        val type = javaClass.genericSuperclass
-//        modelClass = if (type is ParameterizedType) {
-//            type.actualTypeArguments[1] as Class<BaseViewModel>
-//        } else {
-//            //如果没有指定泛型参数，则默认使用BaseViewModel
-//            BaseViewModel::class.java
-//        }
-//
-//
-//        viewModel = createViewModel(this, modelClass as Class<VM>)
-//        //关联ViewModel
-//        binding?.setVariable(viewModelId, viewModel)
-//        //支持LiveData绑定xml，数据改变，UI自动会更新
-//        binding?.lifecycleOwner = this
-//        //让ViewModel拥有View的生命周期感应
-//        lifecycle.addObserver(viewModel!!)
-//        //注入RxLifecycle生命周期
-//        viewModel?.injectLifecycleProvider(this)
-//
-//
-//    }
-//
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        binding?.unbind()
-//    }
-//
-//
-//    /**
-//     * 创建ViewModel 如果 需要自己定义ViewModel 直接复写此方法
-//     *
-//     * @param cls
-//     * @param <T>
-//     * @return
-//    </T> */
-//    open fun <T : ViewModel> createViewModel(activity: FragmentActivity?, cls: Class<T>?): T {
-//        return ViewModelProvider(activity!!)[cls!!]
-//    }
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        viewModel?.onActivityResult(requestCode, resultCode, data)
-//    }
-//
-//
-//    /**
-//     * 提供livedata 或者flow 数据流观察回调
-//     */
-//    override fun initViewObservable() {
-//    }
-//
-//
-//    /**
-//     * 返回vaeriableId
-//     */
-//    abstract fun initVariableId(): Int
-//
-//    /**
-//     * 返回布局id
-//     */
-//    abstract fun initContentView(savedInstanceState: Bundle?): Int
-//}
+package com.cjx.kotlin.base
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import androidx.lifecycle.ViewModelProvider
+import androidx.viewbinding.ViewBinding
+import com.cjx.kotlin.base.vm.BaseAndroidViewModel
+import com.cjx.kotlin.base.vm.BaseViewModel
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import java.lang.reflect.InvocationTargetException
+import java.lang.reflect.Modifier
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
+
+abstract class BaseActivity<VM : BaseViewModel<*>, VB : ViewBinding> : RxAppCompatActivity(),
+    IBaseView {
+
+
+    protected val viewModel by lazy {
+        createViewModel()
+    }
+
+    protected val binding by lazy {
+        createViewBinding()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        viewModel.loadingDataState.observe(this) {
+            when (it.state) {
+                DataState.STATE_LOADING ->
+                    showLoading(it.msg)
+
+                else ->
+                    dismissLoading()
+            }
+        }
+        onActivityCreated(savedInstanceState)
+    }
+
+    /**
+     * Activity content view created.
+     *  @param  savedInstanceState savedInstanceState
+     */
+    abstract fun onActivityCreated(savedInstanceState: Bundle?)
+
+    /**
+     * 显示Loading
+     */
+    open fun showLoading(msg: String? = null) {
+//        ToastUtils.showToast("showLoading")
+    }
+
+    /**
+     * 隐藏Loading
+     */
+    open fun dismissLoading() {
+//        ToastUtils.showToast("hideLoading")
+    }
+
+    /**
+     * Create ViewBinding
+     */
+    @Suppress("UNCHECKED_CAST")
+    open fun createViewBinding(): VB {
+        val actualGenericsClass = findActualGenericsClass<VB>(ViewBinding::class.java)
+            ?: throw NullPointerException("Can not find a ViewBinding Generics in ${javaClass.simpleName}")
+        try {
+            val inflate =
+                actualGenericsClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
+            return inflate.invoke(null, layoutInflater) as VB
+        } catch (e: NoSuchMethodException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        } catch (e: InvocationTargetException) {
+            e.printStackTrace()
+        }
+        throw RuntimeException("don't find class type! ")
+    }
+
+    /**
+     * Create ViewModel
+     *  @return  ViewModel
+     */
+    @Suppress("UNCHECKED_CAST")
+    open fun createViewModel(): VM {
+        val actualGenericsClass = findActualGenericsClass<VM>(BaseViewModel::class.java)
+            ?: throw NullPointerException("Can not find a ViewModel Generics in ${javaClass.simpleName}")
+        if (Modifier.isAbstract(actualGenericsClass.modifiers)) {
+            throw IllegalStateException("$actualGenericsClass is an abstract class,abstract ViewModel class can not create a instance!")
+        }
+        // 判断如果是 BaseAndroidViewModel，则使用 AppViewModelFactory 来生成
+        if (BaseAndroidViewModel::class.java.isAssignableFrom(actualGenericsClass)) {
+            return ViewModelProvider(this, AppViewModelFactory(application))[actualGenericsClass]
+        }
+        return ViewModelProvider(this)[actualGenericsClass]
+    }
+
+    internal fun <T> Any.findActualGenericsClass(cls: Class<*>): Class<T>? {
+        val genericSuperclass = javaClass.genericSuperclass
+        if (genericSuperclass !is ParameterizedType) {
+            return null
+        }
+        // 获取类的所有泛型参数数组
+        val actualTypeArguments = genericSuperclass.actualTypeArguments
+        // 遍历泛型数组
+        actualTypeArguments.forEach {
+            if (it is Class<*> && cls.isAssignableFrom(it)) {
+                return it as Class<T>
+            } else if (it is ParameterizedType) {
+                val rawType = it.rawType
+                if (rawType is Class<*> && cls.isAssignableFrom(rawType)) {
+                    return rawType as Class<T>
+                }
+            }
+        }
+        return null
+    }
+
+
+}

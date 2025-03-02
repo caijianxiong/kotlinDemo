@@ -1,13 +1,17 @@
-package com.cjx.kotlin.base.net
+package com.cjx.kotlin.base.model
 
 import androidx.lifecycle.MutableLiveData
 import com.cjx.kotlin.base.BaseResponse
 import com.cjx.kotlin.base.DataState
+import com.cjx.kotlin.base.net.LoadingState
+import com.cjx.kotlin.base.net.ResponseMutableLiveData
 
 /**
  * MODEL 层
  */
-open class BaseRepository<T> {
+open class BaseRepository {
+
+    constructor() // 显式声明无参构造函数
 
     // Loading 状态的 LiveData
     val loadingStateLiveData: MutableLiveData<LoadingState> by lazy {

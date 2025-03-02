@@ -1,6 +1,6 @@
 package com.cjx.kotlin.base
 
-class BaseResponse<T>(
+open class BaseResponse<T>(
     var errorCode: Int = -1,
     var errorMsg: String? = null,
     var data: T? = null,
