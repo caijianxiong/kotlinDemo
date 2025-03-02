@@ -10,14 +10,14 @@ class Book constructor(string: String, int: Int) : Base(string), IBase { // 1, �
         // 次构造函数，必须this(),代理主构造函数
     }
 
-    public constructor(name: String) : this(name, 111)
+    constructor(name: String) : this(name, 111)
 
     private var num: Int = int // 可以init中或者直接使用主构造器中的值
         set(value) {
             field = if (value > 10) value else -1
         }
     init {
-        num = int;
+        num = int
         name_base = string
 
 
@@ -41,7 +41,7 @@ class Book constructor(string: String, int: Int) : Base(string), IBase { // 1, �
 
     override fun myBaseFun(): String {
         println("myBaseFun")
-        return "";
+        return ""
     }
 
     /**
@@ -54,7 +54,7 @@ class Book constructor(string: String, int: Int) : Base(string), IBase { // 1, �
     /**
      * 嵌套类
      */
-   open class InnerClass constructor() {
+   open class InnerClass {
         var innerNum: Int = 123456
         open fun staticMethod():String{
             return "llll"
@@ -64,9 +64,7 @@ class Book constructor(string: String, int: Int) : Base(string), IBase { // 1, �
     /**
      * 嵌套内部类
      */
-    inner class InnerCls {
-
-    }
+    inner class InnerCls
 
 
     private lateinit var mListener: Listener

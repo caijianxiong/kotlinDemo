@@ -66,7 +66,7 @@ fun usageFilter() {
     arrayList
         .filter { it.startsWith("a") }
         .sortedBy { it }
-        .map { it.toUpperCase() }
+        .map { it.uppercase(Locale.getDefault()) }
         .forEach { println(it) }
 }
 

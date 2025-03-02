@@ -7,12 +7,12 @@ abstract class Base(name: String) : IBook {
 
     private var num_base = 0
 
-    public lateinit var name_base: String
+    lateinit var name_base: String
 
-    public var pages_base = 100;
+    var pages_base = 100
 
     init {
-        this.name_base = name;
+        this.name_base = name
         println("Base println: $name")
     }
 

@@ -1,6 +1,6 @@
 package com.kandaovr.meeting.kotlinDemo.camera
 
-class CameraFactory() {
+class CameraFactory {
 
     fun getCamera(cameraType: Camera.CameraType): Camera {
         var cameraId = if (cameraType == Camera.CameraType.CAMERA_LOCAL) "0" else "140"

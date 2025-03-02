@@ -29,8 +29,8 @@ fun basicTypes() {
 
 fun nullable() {
     val int = Random.nextInt(0, 2)
-    var name: String? = if (int == 0) null else "caicai";
-    var uName = name?.toUpperCase(Locale.ROOT)
+    var name: String? = if (int == 0) null else "caicai"
+    var uName = name?.uppercase(Locale.ROOT)
     println("${uName == null}")
     println("${uName},${name}")
     if (name != null) {
