@@ -1,9 +1,8 @@
-package com.cjx.kotlin.base
+package com.cjx.kotlin.base.vm
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.cjx.kotlin.base.vm.BaseAndroidViewModel
 import java.lang.reflect.InvocationTargetException
 
 class AppViewModelFactory (private val application: Application) : ViewModelProvider.NewInstanceFactory() {

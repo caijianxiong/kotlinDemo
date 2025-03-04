@@ -1,5 +1,7 @@
-package com.cjx.kotlin.base
+package com.kandaovr.meeting.kotlinDemo.network
 
+import com.cjx.kotlin.base.BaseResponse
+import com.cjx.kotlin.base.DataState
 import com.cjx.kotlin.base.model.LoginResult
 
 class LoginResponse (

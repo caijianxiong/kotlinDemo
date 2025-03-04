@@ -28,11 +28,12 @@ object RetrofitCreator {
      *  @param  cls Api Service
      *  @param  baseUrl Base Url
      */
-    fun <T> getApiService(cls: Class<T>, baseUrl: String): T {
+    public fun <T> getApiService(cls: Class<T>, baseUrl: String): T {
         val retrofit = getRetrofitBuilder(
             baseUrl
         ).build()
         return retrofit.create(cls)
     }
+
 
 }

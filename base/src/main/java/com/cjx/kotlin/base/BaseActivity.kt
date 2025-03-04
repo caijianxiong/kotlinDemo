@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
+import com.cjx.kotlin.base.vm.AppViewModelFactory
 import com.cjx.kotlin.base.vm.BaseAndroidViewModel
 import com.cjx.kotlin.base.vm.BaseViewModel
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Modifier
 import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
 
 abstract class BaseActivity<VM : BaseViewModel<*>, VB : ViewBinding> : RxAppCompatActivity(),
     IBaseView {

@@ -2,8 +2,9 @@ package com.cjx.kotlin.base.model
 
 import com.cjx.kotlin.base.BaseResponse
 import com.cjx.kotlin.base.DataState
-import com.cjx.kotlin.base.LoginResponse
+import com.kandaovr.meeting.kotlinDemo.network.LoginResponse
 import com.cjx.kotlin.base.net.ResponseMutableLiveData
+import com.kandaovr.meeting.kotlinDemo.network.RetrofitManager
 
 data class LoginResult(val dataState: DataState, val data: String)
 
@@ -17,7 +18,10 @@ class LoginRepository : BaseRepository() {
     ) {
 //        executeRequest(
 //            // 网络请求返回
-//            block = ::getData(), responseLiveData, showLoading
+//            {
+//                RetrofitManager.apiService.login(username,password)
+//            },
+//           responseLiveData, showLoading
 //        )
     }
 

@@ -16,9 +16,7 @@ abstract class BaseViewModel<T : BaseRepository> : ViewModel() {
     private var uc: UIChangeLiveData? = null
 
     protected val repository: T by lazy(LazyThreadSafetyMode.NONE) {
-        createRepository().also {
-            checkNotNull(it) { "Repository cannot be null in ${javaClass.simpleName}" }
-        }
+        createRepository()
     }
 
     val loadingDataState: LiveData<LoadingState> by lazy {
