@@ -1,11 +1,9 @@
 package com.kandaovr.meeting.kotlinDemo
 
 import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.hardware.display.DisplayManager
@@ -16,19 +14,19 @@ import android.os.Binder
 import android.os.Build
 import android.os.Environment
 import android.os.IBinder
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import com.kandaovr.meeting.kotlinDemo.audio.ScreenInternalAudioRecorder
+import com.kandaovr.meeting.kotlinDemo.audio.ScreenRecordingAudioSource
 import java.io.File
 import java.io.IOException
-import java.nio.file.FileVisitOption
-import java.nio.file.Files
 
 
 class ScreenRecorderService : Service() {
 
     private val TAG = this.javaClass.simpleName
+    private var mAudio: ScreenInternalAudioRecorder? = null
     var mediaProjection: MediaProjection? = null
     private var mediaRecorder: MediaRecorder? = null
     private var virtualDisplay: VirtualDisplay? = null
@@ -36,7 +34,11 @@ class ScreenRecorderService : Service() {
     private var screenHeight: Int = 0
     private var screenDensity: Int = 0
 
+    private var mTempAudioFile: File? = null
+
     public var isBound = false
+
+    private var mAudioSource = ScreenRecordingAudioSource.MIC_AND_INTERNAL
 
 
     // 自定义 Binder 用于传递 MediaProjection
@@ -117,6 +119,9 @@ class ScreenRecorderService : Service() {
             initMediaRecorder()
             createVirtualDisplay()
             mediaRecorder!!.start()
+            if (mAudioSource === ScreenRecordingAudioSource.INTERNAL || mAudioSource === ScreenRecordingAudioSource.MIC_AND_INTERNAL) {
+                mAudio!!.start()
+            }
             showToast("开始录屏")
         } catch (e: IOException) {
             e.printStackTrace()
@@ -137,16 +142,21 @@ class ScreenRecorderService : Service() {
         }
 
         // 配置系统音频（Android 10+）
-        mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC) // REMOTE_SUBMIX
-        mediaRecorder!!.setAudioChannels(2)
-        mediaRecorder!!.setAudioSamplingRate(44100)
-        mediaRecorder!!.setAudioEncodingBitRate(128000)
+        if (mAudioSource == ScreenRecordingAudioSource.MIC) {
+            mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC) // REMOTE_SUBMIX
+            mediaRecorder!!.setAudioChannels(2)
+            mediaRecorder!!.setAudioSamplingRate(44100)
+            mediaRecorder!!.setAudioEncodingBitRate(128000)
+        }
 
 
         // 配置视频参数
         mediaRecorder!!.setVideoSource(MediaRecorder.VideoSource.SURFACE)
         mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        if (mAudioSource == ScreenRecordingAudioSource.MIC) {
+            // set after setOutputFormat
+            mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+        }
         mediaRecorder!!.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
         mediaRecorder!!.setVideoSize(screenWidth, screenHeight)
         mediaRecorder!!.setVideoEncodingBitRate(5 * 1024 * 1024) // 5 Mbps
@@ -156,6 +166,16 @@ class ScreenRecorderService : Service() {
         // 设置输出文件（适配 Android 12 存储）
         mediaRecorder!!.setOutputFile(getOutputFile(this))
         mediaRecorder!!.prepare()
+
+
+        if (mAudioSource === ScreenRecordingAudioSource.INTERNAL || mAudioSource === ScreenRecordingAudioSource.MIC_AND_INTERNAL) {
+            mTempAudioFile = getAudioOutputFile()
+            Log.d(TAG, "initMediaRecorder mTempAudioFile:${mTempAudioFile?.path} ")
+            mAudio = ScreenInternalAudioRecorder(mTempAudioFile!!.getAbsolutePath(),
+                                                 mediaProjection!!,
+                                                 mAudioSource == ScreenRecordingAudioSource.MIC_AND_INTERNAL)
+        }
+
     }
 
     private fun createVirtualDisplay() {
@@ -169,18 +189,13 @@ class ScreenRecorderService : Service() {
                                                                 null)
     }
 
+    private fun getAudioOutputFile():File?{
+        val dir =
+            File(Environment.getExternalStorageDirectory().absolutePath + File.separator + "screenrecord")
+        if (!dir.exists()) dir.mkdirs()
+        return File.createTempFile("temp", ".aac", dir)
+    }
     private fun getOutputFile(context: Context): String? {
-        // 使用 MediaStore 保存到公共目录
-//            val values = ContentValues()
-//            values.put(MediaStore.Video.Media.DISPLAY_NAME,
-//                       "record_" + System.currentTimeMillis() + ".mp4")
-//            values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4")
-//            values.put(MediaStore.Video.Media.RELATIVE_PATH,
-//                       Environment.DIRECTORY_MOVIES + "/MyApp")
-//            val uri =
-//                context.contentResolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values)
-//            uri.toString() // 返回 Uri 路径
-//        } else {
         // 传统文件路径
         val dir =
             File(Environment.getExternalStorageDirectory().absolutePath + File.separator + "screenrecord")
@@ -216,6 +231,11 @@ class ScreenRecorderService : Service() {
             if (mediaProjection != null) {
                 mediaProjection!!.stop()
                 mediaProjection = null
+            }
+
+            if (mAudioSource === ScreenRecordingAudioSource.INTERNAL || mAudioSource === ScreenRecordingAudioSource.MIC_AND_INTERNAL) {
+                mAudio?.end()
+                mAudio = null
             }
         } catch (e: Exception) {
             e.printStackTrace()
