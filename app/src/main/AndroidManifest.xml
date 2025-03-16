@@ -8,10 +8,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
-
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -25,6 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinLearn">
         <activity
+            android:name=".test.mvvm.MvvmActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.TestActivity"
             android:exported="false" />
 
@@ -37,30 +38,30 @@
             android:name=".MainActivity"
             android:exported="true"
             tools:ignore="Instantiatable">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".CameraPreViewActivity"
             android:exported="true"
-            tools:ignore="Instantiatable">
-
-        </activity>
+            tools:ignore="Instantiatable"></activity>
         <activity
             android:name=".AudioRecordActivity"
             android:exported="true">
 
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
 
         </activity>
-
         <activity
             android:name=".ui.ScreenRecordActivity"
             android:exported="true">
@@ -76,7 +77,6 @@
             android:enabled="true"
             android:exported="true"
             android:foregroundServiceType="mediaProjection" />
-
     </application>
 
 </manifest>

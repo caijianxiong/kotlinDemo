@@ -9,9 +9,8 @@ import com.cjx.kotlin.base.net.ResponseMutableLiveData
 /**
  * MODEL 层
  */
-open class BaseRepository {
-
-    constructor() // 显式声明无参构造函数
+open class BaseRepository// 显式声明无参构造函数
+    () {
 
     // Loading 状态的 LiveData
     val loadingStateLiveData: MutableLiveData<LoadingState> by lazy {
@@ -29,7 +28,7 @@ open class BaseRepository {
         showLoading: Boolean = true,
         loadingMsg: String? = null,
     ) {
-        var response = BaseResponse<T>()
+        var response: BaseResponse<T> = BaseResponse()
         try {
             if (showLoading) {
                 loadingStateLiveData.postValue(LoadingState(loadingMsg, DataState.STATE_LOADING))

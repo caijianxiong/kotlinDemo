@@ -36,6 +36,7 @@ abstract class BaseActivity<VM : BaseViewModel<*>, VB : ViewBinding> : RxAppComp
                     dismissLoading()
             }
         }
+        initParam()
         onActivityCreated(savedInstanceState)
     }
 
