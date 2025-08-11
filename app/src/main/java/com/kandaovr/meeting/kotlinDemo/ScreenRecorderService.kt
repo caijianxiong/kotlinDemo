@@ -38,7 +38,7 @@ class ScreenRecorderService : Service() {
 
     public var isBound = false
 
-    private var mAudioSource = ScreenRecordingAudioSource.MIC_AND_INTERNAL
+    private var mAudioSource = ScreenRecordingAudioSource.MIC
 
 
     // 自定义 Binder 用于传递 MediaProjection
@@ -116,6 +116,7 @@ class ScreenRecorderService : Service() {
         }
         isBound = true;
         try {
+            Log.d(TAG, "startRecording mAudioSource: " + mAudioSource.name)
             initMediaRecorder()
             createVirtualDisplay()
             mediaRecorder!!.start()

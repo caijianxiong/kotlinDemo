@@ -14,6 +14,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.kandaovr.meeting.kotlinDemo.databinding.ActivityCameraPreviewBinding
+import com.kandaovr.meeting.rksdk.MeetingApi
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -48,6 +49,28 @@ class CameraPreViewActivity : AppCompatActivity() {
         outputDirectory = getOutputDirectory()
 
         cameraExecutor = Executors.newSingleThreadExecutor()
+
+        setupListener()
+    }
+
+    private fun setupListener() {
+        mDataBinding.btSwitchMode.setOnClickListener {
+            cameraExecutor.execute {
+                val allViewModeSize = MeetingApi.getInstance().allViewModeSize
+                val currentViewModeIndex = MeetingApi.getInstance().currentViewModeIndex
+                Log.d(TAG, "setCurrentViewModeIndex: $allViewModeSize, $currentViewModeIndex")
+                MeetingApi.getInstance().currentViewModeIndex = currentViewModeIndex + 1
+            }
+        }
+
+        mDataBinding.btSwitchMute.setOnClickListener {
+            cameraExecutor.execute {
+                val muteState = MeetingApi.getInstance().currentMicMuteState
+                Log.d(TAG, "setMuteState current: $muteState")
+                MeetingApi.getInstance().setCurrentMicMuteState(muteState != 1)
+            }
+        }
+
     }
 
     private fun takePhoto() {
