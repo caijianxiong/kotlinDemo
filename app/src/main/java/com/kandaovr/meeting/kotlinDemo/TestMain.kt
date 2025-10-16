@@ -1,8 +1,5 @@
 package com.kandaovr.meeting.kotlinDemo
 
-import androidx.core.util.rangeTo
-import kotlin.random.Random
-
 // 提前定义，未初始化
 lateinit var preDef: String
 

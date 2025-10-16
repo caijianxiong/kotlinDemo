@@ -12,11 +12,14 @@ class MvvmActivity : BaseActivity<LoginViewModel, ActivityMvvmBinding>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
     }
 
-    override fun initParam() {
+    override fun setupListener() {
+    }
+
+    override fun initView() {
         viewModel.login("caicai", "123456")
     }
 
-    override fun initViewObservable() {
+    override fun initObservable() {
         viewModel.loginLiveData.observe(this, Observer {
             binding.tvText.text = "hahah:${it.dataState.toString()}"
         })

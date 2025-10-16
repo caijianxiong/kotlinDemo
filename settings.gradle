@@ -1,4 +1,0 @@
-rootProject.name = "KotlinLearn"
-include ':app'
-include ':base'
-include ':screenrecord'

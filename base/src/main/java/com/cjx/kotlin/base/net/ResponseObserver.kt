@@ -5,9 +5,9 @@ import com.cjx.kotlin.base.BaseResponse
 import com.cjx.kotlin.base.DataState
 
 abstract class ResponseObserver<T> : Observer<BaseResponse<T>> {
-    final override fun onChanged(response: BaseResponse<T>?) {
+    final override fun onChanged(response: BaseResponse<T>) {
         response.let {
-            when (response?.dataState) {
+            when (response.dataState) {
                 DataState.STATE_SUCCESS, DataState.STATE_EMPTY -> {
                     onSuccess(response.data)
                 }
@@ -19,6 +19,8 @@ abstract class ResponseObserver<T> : Observer<BaseResponse<T>> {
                 DataState.STATE_FAILED -> {
                     onFailure(response.errorMsg, response.errorCode)
                 }
+
+                else -> {}
             }
         }
 

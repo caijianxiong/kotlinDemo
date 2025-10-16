@@ -5,6 +5,7 @@ import com.cjx.kotlin.base.BaseResponse
 import com.cjx.kotlin.base.DataState
 import com.cjx.kotlin.base.net.LoadingState
 import com.cjx.kotlin.base.net.ResponseMutableLiveData
+import com.cjx.kotlin.base.log.ClzLogger
 
 /**
  * MODEL 层
@@ -47,7 +48,9 @@ open class BaseRepository// 显式声明无参构造函数
         } catch (e: Exception) {
             response.dataState = DataState.STATE_ERROR
             response.exception = e
+            ClzLogger.e(this, e, "executeRequest error")
         } finally {
+            ClzLogger.d(this, "executeRequest final")
             responseLiveData.postValue(response)
             if (showLoading) {
                 loadingStateLiveData.postValue(LoadingState(loadingMsg, DataState.STATE_FINISH))

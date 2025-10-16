@@ -1,4 +1,4 @@
-//package com.cjx.kotlin.base
+//package com.base.mvvm
 //
 //import android.content.Intent
 //import android.os.Bundle
@@ -25,7 +25,7 @@
 //    @Deprecated("Deprecated in Java")
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
-//        initParam()
+//        initView()
 //    }
 //
 //
@@ -56,7 +56,7 @@
 //
 //        //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
 //
-//        initViewObservable()
+//        initObservable()
 //    }
 //
 //    private fun registerUIChangeLiveDataCallBack() {
