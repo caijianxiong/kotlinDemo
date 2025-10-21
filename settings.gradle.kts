@@ -20,10 +20,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "kotlinDemo"
-// 启用依赖目录（libs.versions.toml）的预览功能
-enableFeaturePreview("VERSION_CATALOGS")
 
 
 include(":app")
 include(":base")
-include(":screenrecord")

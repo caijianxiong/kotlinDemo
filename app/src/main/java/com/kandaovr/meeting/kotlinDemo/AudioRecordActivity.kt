@@ -48,7 +48,7 @@ class AudioRecordActivity: AppCompatActivity() {
                                               ),
                                               REQUEST_PERMISSION_CODE)
         }
-        recordButton?.setOnClickListener(View.OnClickListener { v: View? ->
+        recordButton?.setOnClickListener(View.OnClickListener {
             if (isRecording) {
                 stopRecording()
             } else {

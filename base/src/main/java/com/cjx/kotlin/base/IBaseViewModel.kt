@@ -1,33 +1,31 @@
 package com.cjx.kotlin.base
 
-import android.content.Intent
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 
-interface IBaseViewModel:LifecycleObserver {
-    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-    fun onAny(owner: LifecycleOwner?, event: Lifecycle.Event?)
+interface IBaseViewModel : DefaultLifecycleObserver {
+    // 重写 DefaultLifecycleObserver 的默认方法（无需注解）
+    override fun onCreate(owner: LifecycleOwner) {
+        // 可选：添加默认实现，子类可覆盖
+    }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate()
+    override fun onStart(owner: LifecycleOwner) {
+        // 可选：添加默认实现
+    }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy()
+    override fun onResume(owner: LifecycleOwner) {
+        // 可选：添加默认实现
+    }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart()
+    override fun onPause(owner: LifecycleOwner) {
+        // 可选：添加默认实现
+    }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop()
+    override fun onStop(owner: LifecycleOwner) {
+        // 可选：添加默认实现
+    }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onResume()
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onPause()
-
-
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    override fun onDestroy(owner: LifecycleOwner) {
+        // 可选：添加默认实现
+    }
 }

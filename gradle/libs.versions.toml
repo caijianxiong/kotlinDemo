@@ -34,6 +34,7 @@ logger = "2.2.0"
 mmkv = "1.2.7"
 eventbus = "3.2.0"
 gson = "2.10.1"
+retrofit = "2.9.0"
 
 # 测试库
 junit = "4.13.2"
@@ -61,6 +62,16 @@ androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version
 # 网络库
 squareup-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 squareup-okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version = "3.7.0" }
+
+# rx retrofit
+rxlifecycle-components = { module = "com.trello.rxlifecycle2:rxlifecycle-components", version = "2.2.2" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+
+#lifecycle
+lifecycle-viewmodel-ktx={module="androidx.lifecycle:lifecycle-viewmodel-ktx",version="2.5.1"}
+lifecycle-runtime-ktx={module="androidx.lifecycle:lifecycle-runtime-ktx",version="2.5.0"}
+lifecycle-compiler={module="androidx.lifecycle:lifecycle-compiler",version="2.3.1"}
 
 # Google
 google-material = { module = "com.google.android.material:material", version.ref = "material" }

@@ -2,16 +2,18 @@ package com.cjx.kotlin.base.vm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.cjx.kotlin.base.IBaseViewModel
 import com.cjx.kotlin.base.SingleLiveEvent
 import com.cjx.kotlin.base.model.BaseRepository
 import com.cjx.kotlin.base.net.LoadingState
 import com.trello.rxlifecycle2.LifecycleProvider
+import io.reactivex.disposables.CompositeDisposable
 import java.lang.ref.WeakReference
 import java.lang.reflect.ParameterizedType
-import java.lang.reflect.Type
 
-abstract class BaseViewModel<T : BaseRepository> : ViewModel() {
+abstract class BaseViewModel<T : BaseRepository> : ViewModel(), IBaseViewModel {
 
+    private val compositeDisposable = CompositeDisposable()
     private var mLifecycle: WeakReference<LifecycleProvider<*>>? = null
     private var uc: UIChangeLiveData? = null
 
@@ -21,6 +23,18 @@ abstract class BaseViewModel<T : BaseRepository> : ViewModel() {
 
     val loadingDataState: LiveData<LoadingState> by lazy {
         repository.loadingStateLiveData
+    }
+
+    // 注入生命周期提供者（存储为弱引用）
+    fun injectLifecycleProvider(provider: LifecycleProvider<*>) {
+        this.mLifecycle = WeakReference(provider)
+    }
+
+    override fun onCleared() {
+        compositeDisposable.clear()
+        mLifecycle?.clear()
+        super.onCleared()
+
     }
 
     /**
@@ -40,8 +54,7 @@ abstract class BaseViewModel<T : BaseRepository> : ViewModel() {
         } as T
     }
 
-
-    internal fun <T> Any.findActualGenericsClass(cls: Class<*>): Class<T>? {
+    private fun <T> Any.findActualGenericsClass(cls: Class<*>): Class<T>? {
         val genericSuperclass = javaClass.genericSuperclass
         if (genericSuperclass !is ParameterizedType) {
             return null

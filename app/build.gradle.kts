@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     buildFeatures {
         viewBinding = true
@@ -13,10 +13,10 @@ android {
 
     defaultConfig {
         applicationId = "com.kandaovr.meeting.kotlinDemo"
-        minSdk = 29
-        targetSdk = 31
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = libs.versions.appVersionCode.get().toInt()
+        versionName = libs.versions.appVersionName.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
@@ -72,9 +72,10 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+    implementation(libs.androidx.appcompat)                        // 对应 toml 中的 androidx-appcompat
+    implementation(libs.google.material)                           // 对应 toml 中的 google-material
+    implementation(libs.androidx.constraintlayout)                 // 对应 toml 中的 androidx-constraintlayout
 
     val cameraxVersion = "1.0.0-beta07"
     implementation("androidx.camera:camera-camera2:$cameraxVersion")
@@ -93,4 +94,10 @@ dependencies {
     implementation("androidx.datastore:datastore-rxjava3:1.0.0")
 
     implementation(project(":base"))
+
+
+    // Testing Libraries from Catalog
+    testImplementation(libs.test.junit)
+    androidTestImplementation(libs.androidTest.androidx.ext.junit)
+    androidTestImplementation(libs.androidTest.androidx.espresso.core)
 }
