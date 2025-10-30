@@ -1,13 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".test.mvvm.MvvmActivity">
-    <TextView
-        android:id="@+id/tv_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    xmlns:flexbox="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!--   Alt+Enter快捷键生成DataBinding布局 -->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+        <!-- 导入数据类-->
+        <import type="com.kandaovr.meeting.kotlinDemo.mvvm.LoginResult" />
+        <!--导入类-->
+        <import type="android.view.View" />
+        <!-- name：变量名称
+             type：变量类型
+        -->
+        <variable
+            name="loginData"
+            type="LoginResult" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".mvvm.MvvmActivity">
+
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text='@{loginData.data + " " + loginData.username + " " + loginData.password}'
+            android:textSize="20sp"
+            android:visibility='@{loginData.data == null ? View.GONE : View.VISIBLE}' />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="200dp"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            flexbox:alignItems="flex_start"
+            flexbox:flexWrap="wrap"
+            app:flow_horizontalGap="4dp"
+            flexbox:justifyContent="flex_start"
+            tools:ignore="MissingConstraints">
+
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="btnSend"
+                android:text="发送数据请求" />
+
+            <Button
+                android:id="@+id/btn_changeData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="change data" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onFinishClick"
+                android:text="finish" />
+
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

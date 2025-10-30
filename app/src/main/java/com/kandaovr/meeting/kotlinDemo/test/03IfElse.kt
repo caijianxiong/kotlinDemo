@@ -6,7 +6,6 @@ import kotlin.random.Random
 
 
 fun main(args: kotlin.Array<String>) {
-    usageFilter()
     usageIs()
 }
 
@@ -59,15 +58,6 @@ private fun usageIfElse() {
     val int2 = condition.run { if (!this) 0 else 1 }
     println("三目：${int},${int2}")
 
-}
-
-fun usageFilter() {
-    val arrayList = arrayListOf("apple", "sjkdj", "124sada", "adsada")
-    arrayList
-        .filter { it.startsWith("a") }
-        .sortedBy { it }
-        .map { it.uppercase(Locale.getDefault()) }
-        .forEach { println(it) }
 }
 
 fun usageIs() {

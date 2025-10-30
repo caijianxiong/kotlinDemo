@@ -11,7 +11,7 @@ import com.cjx.kotlin.base.log.ClzLogger
  * MODEL 层
  */
 open class BaseRepository// 显式声明无参构造函数
-    () {
+{
 
     // Loading 状态的 LiveData
     val loadingStateLiveData: MutableLiveData<LoadingState> by lazy {

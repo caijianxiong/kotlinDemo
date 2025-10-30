@@ -41,7 +41,7 @@ abstract class BaseViewModel<T : BaseRepository> : ViewModel(), IBaseViewModel {
      * 创建Repository
      */
     @Suppress("UNCHECKED_CAST")
-    open fun createRepository(): T {
+    private fun createRepository(): T {
         // 使用反射获取泛型类型
         val repositoryClass = findActualGenericsClass<T>(BaseRepository::class.java)
             ?: throw IllegalStateException("Cannot determine BaseRepository generics type in ${javaClass.simpleName}")

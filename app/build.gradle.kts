@@ -9,6 +9,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 
     defaultConfig {
@@ -76,6 +77,8 @@ dependencies {
     implementation(libs.androidx.appcompat)                        // 对应 toml 中的 androidx-appcompat
     implementation(libs.google.material)                           // 对应 toml 中的 google-material
     implementation(libs.androidx.constraintlayout)                 // 对应 toml 中的 androidx-constraintlayout
+
+    implementation(libs.flexbox.flexbox)
 
     val cameraxVersion = "1.0.0-beta07"
     implementation("androidx.camera:camera-camera2:$cameraxVersion")

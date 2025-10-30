@@ -69,9 +69,9 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 
 #lifecycle
-lifecycle-viewmodel-ktx={module="androidx.lifecycle:lifecycle-viewmodel-ktx",version="2.5.1"}
-lifecycle-runtime-ktx={module="androidx.lifecycle:lifecycle-runtime-ktx",version="2.5.0"}
-lifecycle-compiler={module="androidx.lifecycle:lifecycle-compiler",version="2.3.1"}
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version = "2.5.1" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.5.0" }
+lifecycle-compiler = { module = "androidx.lifecycle:lifecycle-compiler", version = "2.3.1" }
 
 # Google
 google-material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -87,6 +87,10 @@ greenrobot-eventbus = { module = "org.greenrobot:eventbus", version.ref = "event
 test-junit = { module = "junit:junit", version.ref = "junit" }
 androidTest-androidx-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestExtJunit" }
 androidTest-androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+
+#流式布局
+#implementation 'com.google.android.flexbox:flexbox:3.0.0'
+flexbox-flexbox = { module = "com.google.android.flexbox:flexbox", version = "3.0.0" }
 
 # =======================================================
 #               插件定义 (Plugins)

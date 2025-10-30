@@ -1,4 +1,4 @@
-package com.kandaovr.meeting.kotlinDemo.test.mvvm
+package com.kandaovr.meeting.kotlinDemo.mvvm
 
 import androidx.lifecycle.viewModelScope
 import com.cjx.kotlin.base.net.ResponseLiveData
@@ -23,6 +23,12 @@ class LoginViewModel : BaseViewModel<LoginRepository>() {
     fun login(username: String, password: String) {
         viewModelScope.launch {
             repository.login(username, password, _loginLiveData)
+        }
+    }
+
+    fun loginTest(username: String, password: String) {
+        viewModelScope.launch {
+            repository.loginTest(username, password, _loginLiveData)
         }
     }
 

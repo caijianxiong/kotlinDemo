@@ -50,6 +50,7 @@ abstract class BaseActivity<VM : BaseViewModel<*>, VB : ViewBinding> : RxAppComp
         setupListener()
         onActivityCreated(savedInstanceState)
         initObservable()
+        viewModel.injectLifecycleProvider(this)
     }
 
 
