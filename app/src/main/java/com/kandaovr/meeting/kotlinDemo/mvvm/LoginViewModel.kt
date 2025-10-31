@@ -32,5 +32,11 @@ class LoginViewModel : BaseViewModel<LoginRepository>() {
         }
     }
 
+    fun sendNetWorkRequest() {
+        // rx请求添加
+        compositeDisposable.add(repository.sendRxRequest())
+        // 页面销毁时viewMode回调取消未执行请求
+    }
+
 
 }

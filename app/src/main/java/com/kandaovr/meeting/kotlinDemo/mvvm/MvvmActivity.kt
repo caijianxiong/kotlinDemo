@@ -45,6 +45,9 @@ class MvvmActivity : BaseActivity<LoginViewModel, ActivityMvvmBinding>() {
 
     fun btnSend(view: View) {
         viewModel.loginTest("caicai", Random.nextInt(123, 456).toString())
+
+
+        viewModel.sendNetWorkRequest()
     }
 
     fun changeData(view: View) {
@@ -55,7 +58,7 @@ class MvvmActivity : BaseActivity<LoginViewModel, ActivityMvvmBinding>() {
 
     fun onFinishClick(view: View) {
         showToast("onFinishClick")
-        // TODO: 测试页面finish mode rxjava请求是否终止，viewMode生命周期是否结束 
+        finish()
     }
 
     private fun showToast(string: String) {

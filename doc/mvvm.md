@@ -13,3 +13,7 @@ MVVM 是 Model-View-ViewModel 的缩写，是一种基于数据驱动的设计�
 方法调用链：view-->viewMode-->mode
 
 数据流动链：mode-->viewMode--->view
+
+数据流动的载体：LiveData
+
+viewMode生命感知通过viewModelScope

@@ -1,5 +1,6 @@
 package com.cjx.kotlin.base.vm
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.cjx.kotlin.base.IBaseViewModel
@@ -13,7 +14,7 @@ import java.lang.reflect.ParameterizedType
 
 abstract class BaseViewModel<T : BaseRepository> : ViewModel(), IBaseViewModel {
 
-    private val compositeDisposable = CompositeDisposable()
+    open val compositeDisposable = CompositeDisposable()
     private var mLifecycle: WeakReference<LifecycleProvider<*>>? = null
     private var uc: UIChangeLiveData? = null
 
@@ -31,6 +32,7 @@ abstract class BaseViewModel<T : BaseRepository> : ViewModel(), IBaseViewModel {
     }
 
     override fun onCleared() {
+        Log.d("TAG", "onCleared: ")
         compositeDisposable.clear()
         mLifecycle?.clear()
         super.onCleared()
