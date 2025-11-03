@@ -1,14 +1,13 @@
 package com.kandaovr.meeting.kotlinDemo.mvvm
 
 import android.util.Log
-import com.cjx.kotlin.base.BaseResponse
-import com.cjx.kotlin.base.DataState
+import com.cjx.kotlin.base.net.BaseResponse
+import com.cjx.kotlin.base.net.DataState
 import com.cjx.kotlin.base.model.BaseRepository
 import com.cjx.kotlin.base.net.LoadingState
 import com.cjx.kotlin.base.net.ResponseMutableLiveData
 import com.kandaovr.meeting.kotlinDemo.network.RetrofitManager
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -27,6 +26,16 @@ data class RequestResult(
     val data: String
 )
 
+data class User(val name: String, val age: Int)
+
+// 密封类定义 UI 状态（替代 LiveData 承载的状态数据）
+sealed class LoginUiState {
+    object Idle : LoginUiState() // 初始状态
+    object Loading : LoginUiState() // 加载中
+    data class Success(val user: User) : LoginUiState() // 成功
+    data class Error(val message: String) : LoginUiState() // 失败
+}
+
 class LoginRepository : BaseRepository() {
 
     suspend fun login(
@@ -36,11 +45,12 @@ class LoginRepository : BaseRepository() {
         showLoading: Boolean = true
     ) {
         executeRequest(
-            // 网络请求返回
-            {
+            requestTask = {
+                // 网络请求返回
                 RetrofitManager.apiService.login(username, password)
             },
-            responseLiveData, showLoading
+            responseLiveData,
+            showLoading
         )
     }
 

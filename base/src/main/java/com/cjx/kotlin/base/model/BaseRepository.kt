@@ -1,8 +1,8 @@
 package com.cjx.kotlin.base.model
 
 import androidx.lifecycle.MutableLiveData
-import com.cjx.kotlin.base.BaseResponse
-import com.cjx.kotlin.base.DataState
+import com.cjx.kotlin.base.net.BaseResponse
+import com.cjx.kotlin.base.net.DataState
 import com.cjx.kotlin.base.net.LoadingState
 import com.cjx.kotlin.base.net.ResponseMutableLiveData
 import com.cjx.kotlin.base.log.ClzLogger
@@ -24,7 +24,7 @@ open class BaseRepository// 显式声明无参构造函数
      *  @param responseLiveData 观察请求结果的LiveData
      */
     suspend fun <T : Any> executeRequest(
-        block: suspend () -> BaseResponse<T>,
+        requestTask: suspend () -> BaseResponse<T>,
         responseLiveData: ResponseMutableLiveData<T>,
         showLoading: Boolean = true,
         loadingMsg: String? = null,
@@ -34,7 +34,7 @@ open class BaseRepository// 显式声明无参构造函数
             if (showLoading) {
                 loadingStateLiveData.postValue(LoadingState(loadingMsg, DataState.STATE_LOADING))
             }
-            response = block.invoke()
+            response = requestTask.invoke()
             if (response.errorCode == BaseResponse.ERROR_CODE_SUCCESS) {
                 if (isEmptyData(response.data)) {
                     response.dataState = DataState.STATE_EMPTY
@@ -56,6 +56,18 @@ open class BaseRepository// 显式声明无参构造函数
                 loadingStateLiveData.postValue(LoadingState(loadingMsg, DataState.STATE_FINISH))
             }
         }
+    }
+
+    /**
+     * 执行耗时任务获取数据
+     */
+    suspend fun <T : Any> executeTask(
+        runTask: suspend () -> T,
+        responseLiveData: ResponseMutableLiveData<T>,
+        showLoading: Boolean = true,
+        loadingMsg: String? = null,
+    ) {
+
     }
 
     private fun <T> isEmptyData(data: T?): Boolean {

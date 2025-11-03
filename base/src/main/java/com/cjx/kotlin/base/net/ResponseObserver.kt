@@ -1,8 +1,6 @@
 package com.cjx.kotlin.base.net
 
 import androidx.lifecycle.Observer
-import com.cjx.kotlin.base.BaseResponse
-import com.cjx.kotlin.base.DataState
 
 abstract class ResponseObserver<T> : Observer<BaseResponse<T>> {
     final override fun onChanged(response: BaseResponse<T>) {

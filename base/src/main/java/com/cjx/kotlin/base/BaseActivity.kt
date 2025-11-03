@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.viewbinding.ViewBinding
+import com.cjx.kotlin.base.net.DataState
 import com.cjx.kotlin.base.vm.AppViewModelFactory
 import com.cjx.kotlin.base.vm.BaseAndroidViewModel
 import com.cjx.kotlin.base.vm.BaseViewModel

@@ -7,6 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
+/**
+ * 专为单次单次消费事件设计的 LiveData 子类，核心解决了普通 LiveData 因 “粘性事件” 导致的重复消费问题，
+ * 若用普通 LiveData，当页面重建（如旋转屏幕）时，观察者会再次收到旧的跳转事件，导致重复跳转
+ */
 open class SingleLiveEvent<T> : MutableLiveData<T?>() {
     private val mPending = AtomicBoolean(false)
 
@@ -25,7 +29,7 @@ open class SingleLiveEvent<T> : MutableLiveData<T?>() {
     }
 
     @MainThread
-    override fun setValue(t: T?) {
+    override fun setValue(t: T?) { // postValue实际是切到主线程调用setValue
         mPending.set(true)
         super.setValue(t)
     }

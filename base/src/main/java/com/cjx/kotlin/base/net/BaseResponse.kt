@@ -1,9 +1,10 @@
-package com.cjx.kotlin.base
+package com.cjx.kotlin.base.net
 
 open class BaseResponse<T>(
+    // 包装一层额外的统一网络请求字段
     var errorCode: Int = -1,
     var errorMsg: String? = null,
-    var data: T? = null,
+    var data: T? = null, // 实际服务器请求返回的
     var dataState: DataState? = null,
     var exception: Throwable? = null
 ) {
