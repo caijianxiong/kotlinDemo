@@ -6,6 +6,6 @@ import com.kandaovr.meeting.rksdk.MeetingApi
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        MeetingApi.getInstance().init(this)
+//        MeetingApi.getInstance().init(this)
     }
 }

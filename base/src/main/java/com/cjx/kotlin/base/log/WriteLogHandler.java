@@ -2,10 +2,11 @@ package com.cjx.kotlin.base.log;
 
 import static java.util.Objects.requireNonNull;
 
-import android.annotation.NonNull;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+
+import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.io.FileWriter;

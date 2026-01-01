@@ -1,9 +1,10 @@
 package com.cjx.kotlin.base.log;
 
 
-import android.annotation.NonNull;
-import android.annotation.Nullable;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.LogStrategy;

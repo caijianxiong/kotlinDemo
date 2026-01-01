@@ -1,6 +1,5 @@
 package com.cjx.kotlin.base.log
 
-import android.os.SystemProperties
 import android.text.TextUtils
 import com.cjx.kotlin.base.log.ClzLogger.LoggerHelper.wrapMsg
 import com.cjx.kotlin.base.log.ClzLogger.LoggerHelper.wrapMsgWithCheck
@@ -109,23 +108,24 @@ object ClzLogger {
         private const val PROP_PREFIX = "sys.debug.clzlogger"
 
         init {
-            if (TextUtils.isEmpty(SystemProperties.get("$PROP_PREFIX.ALL"))) {
-                SystemProperties.set("$PROP_PREFIX.ALL", "false")
-            }
+//            if (TextUtils.isEmpty(SystemProperties.get("$PROP_PREFIX.ALL"))) {
+//                SystemProperties.set("$PROP_PREFIX.ALL", "false")
+//            }
         }
 
         private fun checkLoggableByClassName(className: String?): Boolean {
-            val all = SystemProperties.getBoolean("$PROP_PREFIX.ALL", false)
-            return if (className == null) {
-                all
-            } else {
-                all
-                        || SystemProperties.getBoolean("$PROP_PREFIX.$className", false)
-                        || SystemProperties
-                    .getBoolean("$PROP_PREFIX.${className.uppercase()}", false)
-                        || SystemProperties
-                    .getBoolean("$PROP_PREFIX.${className.lowercase()}", false)
-            }
+//            val all = SystemProperties.getBoolean("$PROP_PREFIX.ALL", false)
+//            return if (className == null) {
+//                all
+//            } else {
+//                all
+//                        || SystemProperties.getBoolean("$PROP_PREFIX.$className", false)
+//                        || zzSystemProperties
+//                    .getBoolean("$PROP_PREFIX.${className.uppercase()}", false)
+//                        || SystemProperties
+//                    .getBoolean("$PROP_PREFIX.${className.lowercase()}", false)
+//            }
+            return false
         }
 
         fun wrapMsg(instance: Any, msg: String, detailedTag: Boolean = false): String {

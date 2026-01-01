@@ -194,7 +194,7 @@ class ScreenRecorderService : Service() {
     private fun getAudioOutputFile(): File? {
         val rootFilePath =
             if (isSystemApp) Environment.getExternalStorageDirectory().absolutePath else getExternalFilesDir(
-                null).path
+                null)?.path
         val dir = File(rootFilePath + File.separator + "screenrecord")
         if (!dir.exists()) dir.mkdirs()
         return File.createTempFile("temp", ".aac", dir)
@@ -203,7 +203,7 @@ class ScreenRecorderService : Service() {
         // 传统文件路径
         val rootFilePath =
             if (isSystemApp) Environment.getExternalStorageDirectory().absolutePath else getExternalFilesDir(
-                null).path
+                null)?.path
         val dir = File(rootFilePath + File.separator + "screenrecord")
         if (!dir.exists()) dir.mkdirs().let { Log.d(TAG, "getOutputFile mkdirs: $it") }
         dir.listFiles().let {

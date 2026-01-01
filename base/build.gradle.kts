@@ -60,6 +60,9 @@ dependencies {
     // 严格按照 libs.versions.toml 中的命名引用（- 转换为 .）
     implementation(libs.kotlin.stdlib)                  // 对应 toml 中的 kotlin-stdlib
     implementation(libs.kotlinx.coroutines.android)     // 对应 toml 中的 kotlinx-coroutines-android
+    
+    // Add annotation dependency
+    implementation(libs.androidx.annotation)
 
 
     // 协程（使用版本目录中的定义）

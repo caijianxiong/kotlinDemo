@@ -3,7 +3,6 @@ package com.cjx.kotlin.base.log
 import android.content.Context
 import android.os.Build
 import android.os.HandlerThread
-import android.os.SystemProperties
 import com.cjx.kotlin.base.BuildConfig
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.CsvFormatStrategy
@@ -24,7 +23,6 @@ class LoggerManager private constructor() {
         private var DEBUGGABLE = BuildConfig.DEBUG
                 || Build.TYPE.lowercase() == "userdebug"
                 || Build.TYPE.lowercase() == "eng"
-                || SystemProperties.getBoolean(PROP_LOGGER_ENABLED, false)
 
         private val sInstance by lazy {
             LoggerManager()
@@ -46,7 +44,7 @@ class LoggerManager private constructor() {
         isInitialized = true
         this.context = context
         var formatStrategy: FormatStrategy = MyPrettyFormatStrategy.newBuilder()
-            .methodCount(SystemProperties.getInt(PROP_METHOD_COUNT, 6))
+            .methodCount(6)
             .showThreadInfo(true)
             .tag(TAG_WITH_DETAILS)
             .build()
@@ -99,6 +97,5 @@ class LoggerManager private constructor() {
         DEBUGGABLE = BuildConfig.DEBUG
                 || Build.TYPE.lowercase() == "userdebug"
                 || Build.TYPE.lowercase() == "eng"
-                || SystemProperties.getBoolean(PROP_LOGGER_ENABLED, false)
     }
 }

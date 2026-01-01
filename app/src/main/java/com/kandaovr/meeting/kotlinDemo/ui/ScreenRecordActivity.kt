@@ -5,7 +5,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
-import android.media.AudioManager
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.os.Bundle
@@ -13,8 +12,6 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.kandaovr.meeting.kotlinDemo.CheckPermissionUtil
 import com.kandaovr.meeting.kotlinDemo.ScreenRecorderService
 import com.kandaovr.meeting.kotlinDemo.ScreenRecorderService.LocalBinder
@@ -82,13 +79,11 @@ class ScreenRecordActivity : AppCompatActivity() {
         Log.d(TAG, "checkPermissions: ")
 
         CheckPermissionUtil.checkPermissions(this,
-                                             arrayOf(Manifest.permission.CAPTURE_AUDIO_OUTPUT,
-                                                     Manifest.permission.MODIFY_AUDIO_ROUTING,
-                                                     Manifest.permission.CAMERA,
+                                             arrayOf(Manifest.permission.CAMERA,
                                                      Manifest.permission.RECORD_AUDIO,
                                                      Manifest.permission.READ_EXTERNAL_STORAGE,
-                                                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                                     Manifest.permission.CAPTURE_VOICE_COMMUNICATION_OUTPUT),
+                                                     Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                                    ),
                                              REQUEST_CODE)
 
     }
@@ -97,10 +92,12 @@ class ScreenRecordActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_SCREEN_CAPTURE) {
             if (resultCode == RESULT_OK) {
-                mediaProjection = mediaProjectionManager!!.getMediaProjection(resultCode, data!!)
-                // 3. 通过 Binder 传递 MediaProjection
-                mediaProjectionManager?.getMediaProjection(resultCode, data!!)?.let { projection ->
-                    screenRecorderService?.setsssMediaProjection(projection)
+                if(data!=null){
+                    mediaProjection = mediaProjectionManager!!.getMediaProjection(resultCode, data)
+                    // 3. 通过 Binder 传递 MediaProjection
+                    mediaProjectionManager?.getMediaProjection(resultCode, data)?.let { projection ->
+                        screenRecorderService?.setsssMediaProjection(projection)
+                    }
                 }
             } else {
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
@@ -129,7 +126,11 @@ class ScreenRecordActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        unbindService(serviceConnection)
+        try {
+            unbindService(serviceConnection)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }

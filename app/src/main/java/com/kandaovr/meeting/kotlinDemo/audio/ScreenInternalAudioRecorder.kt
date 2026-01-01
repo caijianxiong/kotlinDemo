@@ -12,7 +12,7 @@ import android.media.MediaMuxer
 import android.media.MediaRecorder
 import android.media.projection.MediaProjection
 import android.util.Log
-import android.util.MathUtils
+//import android.util.MathUtils
 import java.util.*
 
 class ScreenInternalAudioRecorder(val outFile: String,
@@ -94,12 +94,12 @@ class ScreenInternalAudioRecorder(val outFile: String,
             var offsetShortsMic = 0
             while (true) {
                 if (mMic) {
-                    readShortsInternal = mAudioRecord!!.read(bufferInternal,
+                    readShortsInternal = mAudioRecord!!.read(bufferInternal!!,
                                                              offsetShortsInternal,
-                                                             bufferInternal!!.size - offsetShortsInternal)
-                    readShortsMic = mAudioRecordMic!!.read(bufferMic,
+                                                             bufferInternal.size - offsetShortsInternal)
+                    readShortsMic = mAudioRecordMic!!.read(bufferMic!!,
                                                            offsetShortsMic,
-                                                           bufferMic!!.size - offsetShortsMic)
+                                                           bufferMic.size - offsetShortsMic)
 
                     // if both error, end the recording
                     if (readShortsInternal < 0 && readShortsMic < 0) {
@@ -166,27 +166,27 @@ class ScreenInternalAudioRecorder(val outFile: String,
     }
 
     private fun scaleValues(buff: ShortArray, len: Int, scale: Float) {
-        for (i in 0 until len) {
-            val newValue = (buff[i] * scale).toInt()
-            buff[i] =
-                MathUtils.constrain(newValue, Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt())
-                    .toShort()
-        }
+//        for (i in 0 until len) {
+//            val newValue = (buff[i] * scale).toInt()
+//            buff[i] =
+//                MathUtils.constrain(newValue, Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt())
+//                    .toShort()
+//        }
     }
 
     private fun addAndConvertBuffers(src1: ShortArray,
                                      src2: ShortArray,
                                      dst: ByteArray,
                                      sizeShorts: Int) {
-        for (i in 0 until sizeShorts) {
-            var sum: Int
-            sum = MathUtils.constrain(src1[i].toInt() + src2[i].toInt(),
-                                      Short.MIN_VALUE.toInt(),
-                                      Short.MAX_VALUE.toInt()).toShort().toInt()
-            val byteIndex = i * 2
-            dst[byteIndex] = (sum and 0xff).toByte()
-            dst[byteIndex + 1] = (sum shr 8 and 0xff).toByte()
-        }
+//        for (i in 0 until sizeShorts) {
+//            var sum: Int
+//            sum = MathUtils.constrain(src1[i].toInt() + src2[i].toInt(),
+//                                      Short.MIN_VALUE.toInt(),
+//                                      Short.MAX_VALUE.toInt()).toShort().toInt()
+//            val byteIndex = i * 2
+//            dst[byteIndex] = (sum and 0xff).toByte()
+//            dst[byteIndex + 1] = (sum shr 8 and 0xff).toByte()
+//        }
     }
 
     private fun encode(buffer: ByteArray, readBytes: Int) {
@@ -200,8 +200,8 @@ class ScreenInternalAudioRecorder(val outFile: String,
                 return
             }
             val buff = mCodec!!.getInputBuffer(bufferIndex)
-            buff.clear()
-            val bufferSize = buff.capacity()
+            buff?.clear()
+            val bufferSize = buff!!.capacity()
             val bytesToRead = if (readBytes > bufferSize) bufferSize else readBytes
             totalBytesRead += bytesToRead
             readBytes -= bytesToRead
@@ -240,7 +240,7 @@ class ScreenInternalAudioRecorder(val outFile: String,
             if (mTrackId < 0) return
             val buff = mCodec!!.getOutputBuffer(bufferIndex)
             if (!(bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0 && bufferInfo.size != 0)) {
-                mMuxer!!.writeSampleData(mTrackId, buff, bufferInfo)
+                mMuxer!!.writeSampleData(mTrackId, buff!!, bufferInfo)
             }
             mCodec!!.releaseOutputBuffer(bufferIndex, false)
         }
