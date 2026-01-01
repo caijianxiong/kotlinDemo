@@ -7,15 +7,12 @@ import com.cjx.kotlin.base.IBaseViewModel
 import com.cjx.kotlin.base.SingleLiveEvent
 import com.cjx.kotlin.base.model.BaseRepository
 import com.cjx.kotlin.base.net.LoadingState
-import com.trello.rxlifecycle2.LifecycleProvider
 import io.reactivex.disposables.CompositeDisposable
-import java.lang.ref.WeakReference
 import java.lang.reflect.ParameterizedType
 
 abstract class BaseViewModel<T : BaseRepository> : ViewModel(), IBaseViewModel {
 
     open val compositeDisposable = CompositeDisposable()
-    private var mLifecycle: WeakReference<LifecycleProvider<*>>? = null
     private var uc: UIChangeLiveData? = null
 
     protected val repository: T by lazy(LazyThreadSafetyMode.NONE) {
@@ -26,15 +23,9 @@ abstract class BaseViewModel<T : BaseRepository> : ViewModel(), IBaseViewModel {
         repository.loadingStateLiveData
     }
 
-    // 注入生命周期提供者（存储为弱引用）
-    fun injectLifecycleProvider(provider: LifecycleProvider<*>) {
-        this.mLifecycle = WeakReference(provider)
-    }
-
     override fun onCleared() {
         Log.d("TAG", "onCleared: ")
         compositeDisposable.clear()
-        mLifecycle?.clear()
         super.onCleared()
 
     }

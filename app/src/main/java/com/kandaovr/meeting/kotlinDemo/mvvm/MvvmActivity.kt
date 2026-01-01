@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.cjx.kotlin.base.BaseActivity
@@ -15,7 +14,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class MvvmActivity : BaseActivity<LoginViewModel, ActivityMvvmBinding>() {
+class MvvmActivity : BaseActivity<LoginViewModel, ActivityMvvmBinding>(ActivityMvvmBinding::inflate) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
     }
