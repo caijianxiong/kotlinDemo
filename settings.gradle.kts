@@ -24,3 +24,4 @@ rootProject.name = "kotlinDemo"
 
 include(":app")
 include(":base")
+include(":feature_user")
