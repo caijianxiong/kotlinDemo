@@ -3,18 +3,24 @@ package com.cjx.kotlin.base.vm
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.cjx.kotlin.base.IBaseViewModel
 import com.cjx.kotlin.base.SingleLiveEvent
 import com.cjx.kotlin.base.model.BaseRepository
 import com.cjx.kotlin.base.net.LoadingState
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.cancel
 import java.lang.reflect.ParameterizedType
 
 abstract class BaseViewModel<T : BaseRepository> : ViewModel(), IBaseViewModel {
 
+    // 推荐使用viewModelScope，保留compositeDisposable用于兼容RxJava旧代码
     open val compositeDisposable = CompositeDisposable()
-    private var uc: UIChangeLiveData? = null
 
+    // UI状态事件总线 (如果项目准备迁移Flow，建议废弃UIChangeLiveData改用SharedFlow)
+
+    // 通过反射创建Repository
+    // 优化建议：推荐使用构造函数注入Repository (如Hilt/Koin)，去除此类反射
     protected val repository: T by lazy(LazyThreadSafetyMode.NONE) {
         createRepository()
     }
@@ -23,15 +29,17 @@ abstract class BaseViewModel<T : BaseRepository> : ViewModel(), IBaseViewModel {
         repository.loadingStateLiveData
     }
 
+
     override fun onCleared() {
         Log.d("TAG", "onCleared: ")
         compositeDisposable.clear()
+        // viewModelScope会自动取消，无需手动调用
         super.onCleared()
-
     }
 
     /**
      * 创建Repository
+     * 警告：这是反射创建，依赖于无参构造函数。建议逐步重构为依赖注入。
      */
     @Suppress("UNCHECKED_CAST")
     private fun createRepository(): T {
@@ -68,88 +76,5 @@ abstract class BaseViewModel<T : BaseRepository> : ViewModel(), IBaseViewModel {
         return null
     }
 
-
-    companion object {
-
-        class UIChangeLiveData : SingleLiveEvent<Any?>() {
-
-            private var startActivityEvent: SingleLiveEvent<Map<String, Any>>? = null
-            private var finishEvent: SingleLiveEvent<Void>? = null
-            private var onBackPressedEvent: SingleLiveEvent<Void>? = null
-            private var setResultEvent: SingleLiveEvent<Map<String, String>>? = null
-            private var finishResult: SingleLiveEvent<Int>? = null
-            private var startActivityForFragment: SingleLiveEvent<Map<String, Any>>? = null
-            private var setResultFragment: SingleLiveEvent<Map<String, Any>>? = null
-
-
-            fun getResultFragment(): SingleLiveEvent<Map<String, Any>> {
-                return createLiveData(setResultFragment).also {
-                    setResultFragment = it
-                }
-            }
-
-            fun getStartActivityForFragment(): SingleLiveEvent<Map<String, Any>> {
-                return createLiveData(startActivityForFragment).also {
-                    startActivityForFragment = it
-                }
-            }
-
-            fun getFinishResult(): SingleLiveEvent<Int> {
-                return createLiveData(finishResult).also {
-                    finishResult = it
-                }
-            }
-
-            fun getStartActivityEvent(): SingleLiveEvent<Map<String, Any>> {
-                return createLiveData(startActivityEvent).also {
-                    startActivityEvent = it
-                }
-
-
-            }
-
-            fun getSetResultEvent(): SingleLiveEvent<Map<String, String>> {
-                return createLiveData(setResultEvent).also {
-                    setResultEvent = it
-                }
-            }
-
-            fun getFinishEvent(): SingleLiveEvent<Void> {
-                return createLiveData(finishEvent).also {
-                    finishEvent = it
-                }
-            }
-
-            fun getOnBackPressedEvent(): SingleLiveEvent<Void> {
-                return createLiveData(onBackPressedEvent).also {
-                    onBackPressedEvent = it
-                }
-            }
-
-
-            private fun <T> createLiveData(liveData: SingleLiveEvent<T>?): SingleLiveEvent<T> {
-
-                var mLive: SingleLiveEvent<T>? = liveData
-                liveData?.let {
-                    return mLive!!
-                } ?: let {
-                    mLive = SingleLiveEvent()
-                }
-
-
-                return mLive!!
-            }
-
-
-        }
-
-        object ParameterField {
-            const val CLASS = "CLASS"
-            const val CANONICAL_NAME = "CANONICAL_NAME"
-            const val BUNDLE = "BUNDLE"
-            const val REQUEST = "REQUEST"
-            const val REQEUST_DEFAULT = 1
-        }
-    }
 
 }
