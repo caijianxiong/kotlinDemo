@@ -1,5 +1,6 @@
 package com.cjx.feature.user.data.repository
 
+import android.util.Log
 import com.cjx.feature.user.data.local.UserDao
 import com.cjx.feature.user.data.model.User
 import com.cjx.feature.user.data.remote.UserApi
@@ -34,8 +35,11 @@ class UserRepositoryImpl @Inject constructor(
      */
     override suspend fun refreshUser(id: Long) {
         // 网络请求
-        val user = api.getUser(id)
+//        val user = api.getUser(id)
+        // 使用传入的 id，而不是写死 1122
+        val user = User(id, "caicai", "1153448695@qq.com", null)
         // 写入本地数据库，触发 Flow 更新
         dao.insertUser(user)
+        Log.d("UserRepository", "refreshUser: inserted user with id $id")
     }
 }
