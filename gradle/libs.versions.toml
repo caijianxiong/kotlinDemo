@@ -7,8 +7,8 @@ appVersionCode = "27"
 appVersionName = "1.6.3"
 
 # Android Gradle Plugin & Kotlin
-agp = "7.4.2"
-kotlin = "1.8.0"
+agp = "8.1.0"
+kotlin = "1.8.21"
 
 # Android SDK
 compileSdk = "33"
@@ -29,7 +29,7 @@ okhttp = "4.11.0"
 
 # 其他库
 material = "1.9.0"
-coroutines = "1.6.4"
+coroutines = "1.7.1"
 utilcodex = "1.30.6"
 logger = "2.2.0"
 mmkv = "1.2.7"
@@ -38,13 +38,13 @@ gson = "2.10.1"
 retrofit = "2.9.0"
 
 # Modern Stack
-composeBom = "2023.01.00"
-hilt = "2.44"
-room = "2.5.0"
-serialization = "1.5.0"
-navCompose = "2.5.3"
+composeBom = "2023.05.01"
+hilt = "2.46.1"
+room = "2.5.1"
+serialization = "1.5.1"
+navCompose = "2.6.0"
 hiltNavigationCompose = "1.0.0"
-lifecycleCompose = "2.6.0"
+lifecycleCompose = "2.6.1"
 
 # 测试库
 junit = "4.13.2"
