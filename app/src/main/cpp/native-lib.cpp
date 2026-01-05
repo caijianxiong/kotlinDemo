@@ -2,7 +2,8 @@
 #include <string>
 
 extern "C"
-JNIEXPORT jstring JNICALL
+JNIEXPORT jstring
+
 Java_com_kandaovr_meeting_kotlinDemo_MainActivity_stringFromJNI(JNIEnv *env, jobject thiz) {
     // TODO: implement stringFromJNI()
     std::string hello = "Hello from C++";

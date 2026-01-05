@@ -1,20 +1,20 @@
 package com.kandaovr.meeting.kotlinDemo
 
 import android.content.ComponentName
-import android.content.Context.BIND_AUTO_CREATE
 import android.content.Intent
 import android.content.ServiceConnection
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.cjx.feature.user.presentation.UserActivity
 import com.kandaovr.meeting.kotlinDemo.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private var TAG = this.javaClass.simpleName
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mDataBinding= ActivityMainBinding.inflate(LayoutInflater.from(this))
-        setContentView(R.layout.activity_main)
+        setContentView(mDataBinding.root) // Use binding root
         str = "hello"
         // Example of a call to a native method
         mDataBinding.sampleText.post(Runnable {
@@ -68,6 +68,13 @@ class MainActivity : AppCompatActivity() {
 
         mDataBinding.btStopService.setOnClickListener {
             unbindService(connection)
+        }
+
+        // Add button logic to jump to User Module
+        mDataBinding.btStartFeature.setOnClickListener {
+             // Jump to UserActivity in feature_user module
+             // Passing a mock user ID (e.g., 1001)
+             startActivity(UserActivity.createIntent(this, 1001L))
         }
 
     }
@@ -87,12 +94,12 @@ class MainActivity : AppCompatActivity() {
      */
     external fun stringFromJNI(): String
 
-//    companion object {
-//        // Used to load the 'native-lib' library on application startup.
-//        init {
-//            System.loadLibrary("native-lib")
-//        }
-//    }
+    companion object {
+        // Used to load the 'native-lib' library on application startup.
+        init {
+            System.loadLibrary("native-lib")
+        }
+    }
 
     interface Listener{
         fun onClick(v:View)

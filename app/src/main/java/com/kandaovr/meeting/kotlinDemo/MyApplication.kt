@@ -1,11 +1,19 @@
 package com.kandaovr.meeting.kotlinDemo
 
 import android.app.Application
-import com.kandaovr.meeting.rksdk.MeetingApi
+import android.util.Log
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.Logger
+import dagger.hilt.android.HiltAndroidApp
+import kotlin.properties.Delegates
 
+@HiltAndroidApp
 class MyApplication : Application() {
+    private var TAG = "MyApplication"
+
     override fun onCreate() {
         super.onCreate()
-//        MeetingApi.getInstance().init(this)
+        Logger.addLogAdapter(AndroidLogAdapter())
+        Log.d(TAG, "onCreate: ")
     }
 }

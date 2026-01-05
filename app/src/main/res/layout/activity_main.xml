@@ -29,5 +29,12 @@
         android:text="service_stop"
         android:textSize="10sp" />
 
+    <Button
+        android:id="@+id/bt_start_feature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="bt_start_feature"
+        android:textSize="10sp" />
+
 
 </LinearLayout>
