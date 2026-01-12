@@ -22,16 +22,14 @@
 ### 3. Presentation Layer (`presentation/`)
 **UI 展示层，负责处理 UI 状态和用户交互。**
 - **UserViewModel**: 使用 MVVM 模式，持有 `StateFlow<UiState>`，通过 UseCase 与业务层交互。
-- **UserScreen**: 使用 Jetpack Compose 构建的声明式 UI。
-    - `UserRoute`: 负责与 ViewModel 连接，State Hoisting。
-    - `UserScreen`: 无状态的纯 UI 组件。
+- **UserActivity**: 使用传统的 **XML 布局** 和 **ViewBinding** 构建 UI。Activity 负责观察 ViewModel 中的 `UiState`，并根据状态更新界面（如显示加载、成功或错误视图）。
 
 ### 4. Dependency Injection (`di/`)
 **依赖注入层，使用 Hilt 将各层组件装配在一起。**
 - **UserModule**: 提供 Database, API, Repository, UseCase 等对象的创建逻辑。
 
 ## 技术栈
-- **UI**: Jetpack Compose (Material3)
+- **UI**: **XML Layouts & ViewBinding**
 - **Architecture**: MVVM + Clean Architecture
 - **DI**: Hilt
 - **Network**: Retrofit + Kotlin Serialization
@@ -44,32 +42,26 @@
 
 ### 1. 注入入口 (@AndroidEntryPoint)
 - **位置**: `UserActivity`
-- **作用**: 告诉 Hilt 这个 Activity 需要注入依赖。
-    - 只有添加了此注解，Activity 才能使用 `@Inject` 注入字段，或者获取 `@HiltViewModel`。
-    - 如果忘记添加，App 运行时会崩溃，提示无法创建 ViewModel。
+- **作用**: 告诉 Hilt 这个 Activity 需要注入依赖。只有添加了此注解，Activity 才能获取由 Hilt 提供的 ViewModel。
 
 ### 2. 定义依赖来源 (@Module, @Provides)
 - **位置**: `di/UserModule.kt`
 - **背景**: Hilt 不知道如何创建接口（如 `UserRepository`）或第三方库类（如 `Retrofit`, `RoomDatabase`）。我们需要在一个模块里手动教它。
 - **@Module**: 表明这是一个 Hilt 配置模块。
-- **@InstallIn(SingletonComponent::class)**: 指定这些依赖的作用域是全 App 范围（单例）。即在 App 运行期间，这些对象只会被创建一次。
+- **@InstallIn(SingletonComponent::class)**: 指定这些依赖的作用域是全 App 范围（单例）。
 - **@Provides**: 修饰方法。告诉 Hilt："当有地方需要这个类型的对象时，请运行这个方法来创建它"。
-    - *示例*: `provideUserRepository` 方法告诉 Hilt，当 `UserViewModel` 需要 `UserRepository` 接口时，请返回 `UserRepositoryImpl` 的实例。
 
 ### 3. 构造函数注入 (@Inject)
 - **位置**: `UserRepositoryImpl`, `GetUserUseCase`
-- **作用**: 告诉 Hilt 如何创建这个自己写的类的实例。
-    - Hilt 会自动查看构造函数需要的参数（如 `UserApi`, `UserDao`），并自动去 DI 系统里找到这些对象填进去。
-    - 这是 Clean Architecture 中最常用的注入方式。
+- **作用**: 告诉 Hilt 如何创建这个自己写的类的实例。Hilt 会自动查看构造函数需要的参数，并自动去 DI 系统里找到这些对象填进去。
 
-### 4. ViewModel 注入 (@HiltViewModel)
-- **位置**: `UserViewModel`
-- **作用**: 专门用于 ViewModel 的注解。
-    - 它允许 Hilt 生成 ViewModel 的工厂类。
-    - 配合 Compose 中的 `hiltViewModel()` 函数，系统会自动创建 ViewModel，并自动注入它所需要的 UseCase 和 Repository。
+### 4. ViewModel 注入 (@HiltViewModel & by viewModels())
+- **位置**: `UserViewModel` / `UserActivity`
+- **@HiltViewModel**: 专门用于 ViewModel 的注解。它允许 Hilt 生成 ViewModel 的工厂类。
+- **`by viewModels()`**: 在 `UserActivity` 中，我们使用 `private val viewModel: UserViewModel by viewModels()` 来获取 ViewModel 实例。这是 `activity-ktx` 库提供的属性委托，它会自动处理 ViewModel 的生命周期，并利用 Hilt 创建注入了依赖的 ViewModel 实例。
 
 ### 依赖链是如何打通的？
-1. **UI**: `UserActivity` 请求获取 `UserViewModel`。
+1. **UI**: `UserActivity` 通过 `by viewModels()` 请求获取 `UserViewModel`。
 2. **ViewModel**: Hilt 发现 `UserViewModel` 需要 `GetUserUseCase`。
 3. **Domain**: Hilt 发现 `GetUserUseCase` 需要 `UserRepository` 接口。
 4. **Module**: Hilt 查阅 `UserModule`，发现 `UserRepository` 接口应该由 `UserRepositoryImpl` 实现。

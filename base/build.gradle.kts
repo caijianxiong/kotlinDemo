@@ -1,14 +1,10 @@
+@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed in AS
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
-
-
-//kapt {
-//    generateStubs = true
-//}
 
 android {
     namespace = "com.cjx.kotlin.base"
@@ -24,7 +20,6 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
-    @Suppress("UnstableApiUsage") // 抑制实验性 API 警告
     buildFeatures {
         dataBinding = true
         viewBinding = true

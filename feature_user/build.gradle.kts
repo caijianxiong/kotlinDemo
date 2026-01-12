@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     kotlin("kapt")
     alias(libs.plugins.hilt.android)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -32,10 +31,7 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7" // Match with Kotlin 1.8.21
+        viewBinding = true
     }
 }
 
@@ -44,15 +40,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.google.material)
-
-    // Compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.androidx.activity.ktx)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -79,7 +67,4 @@ dependencies {
     testImplementation(libs.test.junit)
     androidTestImplementation(libs.androidTest.androidx.ext.junit)
     androidTestImplementation(libs.androidTest.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui)
-    debugImplementation(libs.androidx.compose.ui.tooling)
 }

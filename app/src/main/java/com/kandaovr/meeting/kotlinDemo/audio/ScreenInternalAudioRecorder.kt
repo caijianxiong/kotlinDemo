@@ -12,7 +12,6 @@ import android.media.MediaMuxer
 import android.media.MediaRecorder
 import android.media.projection.MediaProjection
 import android.util.Log
-//import android.util.MathUtils
 import java.util.*
 
 class ScreenInternalAudioRecorder(val outFile: String,
@@ -166,27 +165,22 @@ class ScreenInternalAudioRecorder(val outFile: String,
     }
 
     private fun scaleValues(buff: ShortArray, len: Int, scale: Float) {
-//        for (i in 0 until len) {
-//            val newValue = (buff[i] * scale).toInt()
-//            buff[i] =
-//                MathUtils.constrain(newValue, Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt())
-//                    .toShort()
-//        }
+        for (i in 0 until len) {
+            val newValue = (buff[i] * scale).toInt()
+            buff[i] = newValue.coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
+        }
     }
 
     private fun addAndConvertBuffers(src1: ShortArray,
                                      src2: ShortArray,
                                      dst: ByteArray,
                                      sizeShorts: Int) {
-//        for (i in 0 until sizeShorts) {
-//            var sum: Int
-//            sum = MathUtils.constrain(src1[i].toInt() + src2[i].toInt(),
-//                                      Short.MIN_VALUE.toInt(),
-//                                      Short.MAX_VALUE.toInt()).toShort().toInt()
-//            val byteIndex = i * 2
-//            dst[byteIndex] = (sum and 0xff).toByte()
-//            dst[byteIndex + 1] = (sum shr 8 and 0xff).toByte()
-//        }
+        for (i in 0 until sizeShorts) {
+            val sum = (src1[i].toInt() + src2[i].toInt()).coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt())
+            val byteIndex = i * 2
+            dst[byteIndex] = (sum and 0xff).toByte()
+            dst[byteIndex + 1] = (sum shr 8 and 0xff).toByte()
+        }
     }
 
     private fun encode(buffer: ByteArray, readBytes: Int) {

@@ -1,9 +1,10 @@
+@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed in AS
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-parcelize")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.parcelize)
+    kotlin("kapt")
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -75,9 +76,9 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
 
-    implementation(libs.androidx.appcompat)                        // 对应 toml 中的 androidx-appcompat
-    implementation(libs.google.material)                           // 对应 toml 中的 google-material
-    implementation(libs.androidx.constraintlayout)                 // 对应 toml 中的 androidx-constraintlayout
+    implementation(libs.androidx.appcompat)
+    implementation(libs.google.material)
+    implementation(libs.androidx.constraintlayout)
 
     implementation(libs.flexbox.flexbox)
 

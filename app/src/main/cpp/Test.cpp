@@ -12,7 +12,7 @@ struct student {
     string name;  //姓名
     int age = 0;      //年龄
     int score = 0;    //分数
-} stu3;
+};
 
 
 int main() {
