@@ -1,4 +1,4 @@
-package com.kandaovr.meeting.kotlinDemo.test
+package com.kandaovr.meeting.kotlin_test
 
 import java.util.*
 import kotlin.random.Random

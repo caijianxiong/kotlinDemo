@@ -1,4 +1,4 @@
-package com.kandaovr.meeting.kotlinDemo.test
+package com.kandaovr.meeting.kotlin_test
 
 import com.kandaovr.meeting.kotlinDemo.listener.Listener
 

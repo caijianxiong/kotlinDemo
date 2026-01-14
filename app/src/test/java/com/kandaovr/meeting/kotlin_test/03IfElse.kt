@@ -1,11 +1,10 @@
-package com.kandaovr.meeting.kotlinDemo.test
+package com.kandaovr.meeting.kotlin_test
 
-import java.lang.reflect.Array
 import java.util.*
 import kotlin.random.Random
 
 
-fun main(args: kotlin.Array<String>) {
+fun main(args: Array<String>) {
     usageIs()
 }
 

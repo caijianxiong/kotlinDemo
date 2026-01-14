@@ -1,7 +1,6 @@
-package com.kandaovr.meeting.kotlinDemo
+package com.kandaovr.meeting.kotlin_demo
 
 import org.junit.Test
-
 import org.junit.Assert.*
 
 /**
@@ -13,5 +12,12 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+    }
+
+    @Test
+    fun string_concatenation_works() {
+        val str1 = "Hello"
+        val str2 = "World"
+        assertEquals("HelloWorld", str1 + str2)
     }
 }
