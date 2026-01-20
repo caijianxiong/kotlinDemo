@@ -193,7 +193,7 @@ class ScopeFunctionsTest {
 
 
     @Test
-    fun runAllScopeFunctionExamples(){
+    fun runAllScopeFunctionExamples() {
         printIfBothNonNull(null, "null")
         printIfBothNonNull("null", null)
         printIfBothNonNull("null", "null02")
@@ -208,7 +208,9 @@ class ScopeFunctionsTest {
         // --- 以下为新增的说明和用例 ---
         println("\n======= 标准作用域函数使用场景及说明 =======")
 
-        val testPerson = People().apply { name = "ScopeTester"; age = 99; about = "A person for testing scopes." }
+        val testPerson = People().apply {
+            name = "ScopeTester"; age = 99; about = "A person for testing scopes."
+        }
 
         println("\n--- 1. let: 安全调用与链式操作 ---")
         letUseCase(testPerson)
