@@ -43,5 +43,14 @@
         android:text="btJniCallback"
         android:textSize="10sp" />
 
+<!--    btMviTest-->
+
+    <Button
+        android:id="@+id/btMviTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="btMviTest"
+        android:textSize="10sp" />
+
 
 </LinearLayout>

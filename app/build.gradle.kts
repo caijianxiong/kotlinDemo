@@ -75,13 +75,12 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-
     implementation(libs.androidx.appcompat)
     implementation(libs.google.material)
     implementation(libs.androidx.constraintlayout)
-
     implementation(libs.flexbox.flexbox)
 
+    // CameraX
     val cameraxVersion = "1.0.0-beta07"
     implementation("androidx.camera:camera-camera2:$cameraxVersion")
     implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
@@ -100,13 +99,12 @@ dependencies {
 
     implementation(project(":base"))
     implementation(project(":feature_user"))
+    implementation(project(":mvi"))
 
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-
-    // Testing Libraries from Catalog
     testImplementation(libs.test.junit)
     androidTestImplementation(libs.androidTest.androidx.ext.junit)
     androidTestImplementation(libs.androidTest.androidx.espresso.core)

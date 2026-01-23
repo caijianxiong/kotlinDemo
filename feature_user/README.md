@@ -3,6 +3,8 @@
 此模块演示了符合 Modern Android Development (MAD) 标准的 Clean Architecture 架构实现。
 模块采用了 strictly separated layers (Strict Layer Separation) 原则。
 
+模块遵循了 Google 推荐的 MVVM（Model-View-ViewModel）架构，并结合了**分层架构（Layered Architecture）和依赖注入（Dependency Injection）**等最佳实践。
+
 ## 架构分层说明
 
 ### 1. Domain Layer (`domain/`)

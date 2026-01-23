@@ -37,6 +37,7 @@ mmkv = "1.2.7"
 eventbus = "3.2.0"
 gson = "2.10.1"
 retrofit = "2.9.0"
+arouter = "1.5.2"
 
 # Modern Stack
 composeBom = "2023.05.01"
@@ -97,6 +98,10 @@ blankj-utilcodex = { module = "com.blankj:utilcodex", version.ref = "utilcodex" 
 orhanobut-logger = { module = "com.orhanobut:logger", version.ref = "logger" }
 tencent-mmkv = { module = "com.tencent:mmkv-static", version.ref = "mmkv" }
 greenrobot-eventbus = { module = "org.greenrobot:eventbus", version.ref = "eventbus" }
+
+# ARouter
+arouter-api = { module = "com.alibaba:arouter-api", version.ref = "arouter" }
+arouter-compiler = { module = "com.alibaba:arouter-compiler", version.ref = "arouter" }
 
 # 测试
 test-junit = { module = "junit:junit", version.ref = "junit" }

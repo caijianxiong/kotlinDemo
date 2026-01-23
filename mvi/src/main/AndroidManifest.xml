@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name=".test.MviTestActivity"
+            android:exported="true">
+            <!-- 为这个 Activity 添加一个唯一的、可被外部访问的 action -->
+            <intent-filter>
+                <action android:name="com.kandaovr.mvi.test.OPEN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

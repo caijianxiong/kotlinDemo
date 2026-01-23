@@ -1,9 +1,9 @@
 // 注释：定义插件的远程仓库
 pluginManagement {
     repositories {
+        maven { url = uri("https://maven.aliyun.com/repository/public") }
         google()
         mavenCentral()
-        maven { url = uri("https://maven.aliyun.com/repository/public") }
         // 注释：Gradle 插件门户网站，plugins {} 块会默认从这里查找插件
         gradlePluginPortal()
     }
@@ -25,3 +25,4 @@ rootProject.name = "kotlinDemo"
 include(":app")
 include(":base")
 include(":feature_user")
+include(":mvi")

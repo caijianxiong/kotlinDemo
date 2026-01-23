@@ -1,10 +1,10 @@
 package com.kandaovr.meeting.kotlinDemo
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import com.cjx.feature.user.presentation.UserActivity
 import com.kandaovr.meeting.kotlinDemo.databinding.ActivityMainBinding
 import com.kandaovr.meeting.kotlinDemo.jni.JniCallbackHandler
 import com.kandaovr.meeting.kotlinDemo.jni.NativeLib
@@ -25,16 +25,24 @@ class MainActivity : AppCompatActivity() {
         // 初始化回调处理器
         jniCallbackHandler = JniCallbackHandler()
 
-        // 按钮点击事件
+        // --- JNI Advanced Test Button ---
         mDataBinding.btJniCallback.setOnClickListener {
             Log.d(TAG, "Button clicked, starting native thread...")
             NativeLib.startNativeThread(jniCallbackHandler)
             mDataBinding.sampleText.text = "Native thread started. Check Logcat for progress."
         }
 
-        // --- 其他原有按钮的逻辑 (为清晰起见，暂时简化或移除) ---
-        mDataBinding.sampleText.setOnClickListener {
-             startActivity(UserActivity.createIntent(this, 1001L))
+        // --- MVI Test Button ---
+        // 使用隐式 Intent 启动 MVI 测试页面，实现模块解耦
+        mDataBinding.btMviTest.setOnClickListener { // Assumes you have a button with this ID
+            Log.d(TAG, "Button clicked, starting MVI test activity...")
+            val intent = Intent("com.kandaovr.mvi.test.OPEN")
+            // 添加此检查可以防止在找不到 Activity 时应用崩溃
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            } else {
+                Log.e(TAG, "MVI Test Activity not found!")
+            }
         }
     }
 
