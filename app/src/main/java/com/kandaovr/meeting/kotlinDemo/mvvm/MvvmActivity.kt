@@ -10,7 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.cjx.kotlin.base.BaseActivity
 import com.kandaovr.meeting.kotlinDemo.databinding.ActivityMvvmBinding
 import com.orhanobut.logger.Logger
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -30,6 +30,9 @@ class MvvmActivity : BaseActivity<LoginViewModel, ActivityMvvmBinding>(ActivityM
     }
 
     override fun initView() {
+        binding.tvFlowState.text = "StateFlow：Idle"
+        binding.tvCountDown.text = "倒计时：0"
+        binding.tvFlowLog.text = "点击下方按钮查看 Flow 教程日志"
     }
 
     override fun initObservable() {
@@ -43,29 +46,85 @@ class MvvmActivity : BaseActivity<LoginViewModel, ActivityMvvmBinding>(ActivityM
                 .show()
         }
 
-        // 收集状态流（StateFlow）：处理 UI 状态更新
         lifecycleScope.launch {
-            // 配合 repeatOnLifecycle 实现生命周期感知（仅在前台时收集）
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.loginState.collectLatest { state ->
-                    when (state) {
-                        is LoginUiState.Idle -> Unit // 初始状态，不处理
-                        is LoginUiState.Loading -> showLoading()
-                        is LoginUiState.Success -> Log.d("TAG", "initObservable: ${state.user}")
-                        is LoginUiState.Error -> Log.d("TAG", "initObservable: ${state.message}")
+                // StateFlow：收集页面状态。它总有当前值，重新进入页面会马上收到最新状态。
+                launch {
+                    viewModel.loginState.collect { state ->
+                        when (state) {
+                            is LoginUiState.Idle -> binding.tvFlowState.text = "StateFlow：Idle"
+                            is LoginUiState.Loading -> {
+                                binding.tvFlowState.text = "StateFlow：Loading"
+                                showLoading()
+                            }
+                            is LoginUiState.Success -> {
+                                dismissLoading()
+                                binding.loginData = state.result
+                                binding.tvFlowState.text = "StateFlow：Success ${state.result.username}"
+                            }
+                            is LoginUiState.Error -> {
+                                dismissLoading()
+                                binding.tvFlowState.text = "StateFlow：Error ${state.message}"
+                            }
+                        }
+                    }
+                }
+
+                // SharedFlow：收集一次性事件。Toast/导航这类动作不应该被 StateFlow 重放。
+                launch {
+                    viewModel.loginEvent.collect { event ->
+                        when (event) {
+                            is LoginUiEvent.Toast -> showToast(event.message)
+                            is LoginUiEvent.NavigateHome -> showToast("SharedFlow：导航事件")
+                        }
+                    }
+                }
+
+                // StateFlow：日志列表保存在 ViewModel 中，屏幕旋转后仍能展示最后几条。
+                launch {
+                    viewModel.flowLogs.collect { logs ->
+                        binding.tvFlowLog.text = if (logs.isEmpty()) {
+                            "点击下方按钮查看 Flow 教程日志"
+                        } else {
+                            logs.joinToString(separator = "\n")
+                        }
+                    }
+                }
+
+                launch {
+                    viewModel.countDownSecond.collect { second ->
+                        binding.tvCountDown.text = "倒计时：$second"
                     }
                 }
             }
         }
-
     }
 
     fun btnSend(view: View) {
         viewModel.loginTest("caicai", Random.nextInt(123, 456).toString())
 
-
-        // 模拟网络请求，页面销毁请请求取消
+        // 模拟网络请求，页面销毁时请求取消
         viewModel.sendNetWorkRequest()
+    }
+
+    fun btnFlowLogin(view: View) {
+        viewModel.loginByFlow("flow_user", Random.nextInt(1000, 9999).toString())
+    }
+
+    fun btnColdFlow(view: View) {
+        viewModel.startColdFlowDemo()
+    }
+
+    fun btnSharedFlow(view: View) {
+        viewModel.sendSharedFlowEvent()
+    }
+
+    fun btnCountDown(view: View) {
+        viewModel.startCountDown()
+    }
+
+    fun btnClearFlow(view: View) {
+        viewModel.clearFlowLog()
     }
 
     fun changeData(view: View) {

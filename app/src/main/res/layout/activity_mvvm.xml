@@ -3,21 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:flexbox="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <!--   Alt+Enter快捷键生成DataBinding布局 -->
 
     <data>
 
-        <!-- 导入数据类-->
-        <import type="com.kandaovr.meeting.kotlinDemo.mvvm.LoginResult" />
-        <!--导入类-->
         <import type="android.view.View" />
-        <!-- name：变量名称
-             type：变量类型
-        -->
+
+        <import type="com.kandaovr.meeting.kotlinDemo.mvvm.LoginResult" />
+
         <variable
             name="loginData"
             type="LoginResult" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,49 +20,120 @@
         android:layout_height="match_parent"
         tools:context=".mvvm.MvvmActivity">
 
-        <TextView
-            android:id="@+id/tv_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text='@{loginData.data + " " + loginData.username + " " + loginData.password}'
-            android:textSize="20sp"
-            android:visibility='@{loginData.data == null ? View.GONE : View.VISIBLE}' />
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@id/actionPanel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvFlowState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    tools:text="StateFlow: Idle" />
+
+                <TextView
+                    android:id="@+id/tvCountDown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16sp"
+                    tools:text="Countdown: 0" />
+
+                <TextView
+                    android:id="@+id/tvFlowLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="monospace"
+                    android:textSize="14sp"
+                    tools:text="[Flow] start collect&#10;[StateFlow] login state = Loading" />
+
+                <TextView
+                    android:id="@+id/tv_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center_horizontal"
+                    android:text='@{loginData.data + " " + loginData.username + " " + loginData.password}'
+                    android:textSize="20sp"
+                    android:visibility='@{loginData == null ? View.GONE : View.VISIBLE}'
+                    tools:text="request complete user password" />
+            </LinearLayout>
+        </ScrollView>
 
         <com.google.android.flexbox.FlexboxLayout
-            android:layout_width="match_parent"
+            android:id="@+id/actionPanel"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="200dp"
             android:padding="8dp"
+            app:flow_horizontalGap="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             flexbox:alignItems="flex_start"
             flexbox:flexWrap="wrap"
-            app:flow_horizontalGap="4dp"
-            flexbox:justifyContent="flex_start"
-            tools:ignore="MissingConstraints">
+            flexbox:justifyContent="flex_start">
 
             <Button
                 android:id="@+id/btnSend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="btnSend"
-                android:text="发送数据请求" />
+                android:text="&#21457;&#36865;&#25968;&#25454;&#35831;&#27714;" />
 
             <Button
                 android:id="@+id/btn_changeData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="change data" />
+                android:onClick="changeData"
+                android:text="&#21464;&#26356;&#25968;&#25454;" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="btnFlowLogin"
+                android:text="Flow &#30331;&#24405;" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="btnColdFlow"
+                android:text="&#20919;&#27969;&#27493;&#39588;" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="btnSharedFlow"
+                android:text="SharedFlow &#20107;&#20214;" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="btnCountDown"
+                android:text="&#24320;&#22987;&#20598;&#35745;&#26102;" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="btnClearFlow"
+                android:text="&#28165;&#31354;&#26085;&#24535;" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onFinishClick"
-                android:text="finish" />
-
-
+                android:text="&#32467;&#26463;" />
         </com.google.android.flexbox.FlexboxLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
