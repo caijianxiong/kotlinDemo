@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kandaovr.meeting.kotlinDemo"
+    android:sharedUserId="android.uid.system"
     >
-<!--    android:sharedUserId="android.uid.system"-->
 
     <uses-feature android:name="android.hardware.camera.any" />
 
@@ -57,12 +57,12 @@
             android:exported="true"
             tools:ignore="Instantiatable">
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
+<!--             <intent-filter>-->
+<!--             <action android:name="android.intent.action.MAIN" />-->
 
 
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+<!--             <category android:name="android.intent.category.LAUNCHER" />-->
+<!--             </intent-filter>-->
         </activity>
         <activity
             android:name=".CameraPreViewActivity"
@@ -90,11 +90,11 @@
         <activity
             android:name=".ui.ScreenRecordActivity"
             android:exported="true">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
         </activity>
 
         <service

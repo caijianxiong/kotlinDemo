@@ -11,9 +11,12 @@ import android.media.MediaFormat
 import android.media.MediaMuxer
 import android.media.MediaRecorder
 import android.media.projection.MediaProjection
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.Q)
 class ScreenInternalAudioRecorder(val outFile: String,
                                   val mMediaProjection: MediaProjection,
                                   val mMic: Boolean) {
@@ -39,6 +42,7 @@ class ScreenInternalAudioRecorder(val outFile: String,
         setupSimple()
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     @SuppressLint("MissingPermission")
     private fun setupSimple() {
         val size = AudioRecord.getMinBufferSize(mConfig.sampleRate,
